@@ -19,6 +19,10 @@
 		BCA4C10019361980007EBE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E819361980007EBE6A /* UIKit.framework */; };
 		BCA4C10819361980007EBE6A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C10619361980007EBE6A /* InfoPlist.strings */; };
 		BCA4C10A19361980007EBE6A /* ObrasTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C10919361980007EBE6A /* ObrasTests.m */; };
+		BCA4C114193619A0007EBE6A /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C113193619A0007EBE6A /* Storyboard.storyboard */; };
+		BCA4C116193619D5007EBE6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C115193619D5007EBE6A /* CoreLocation.framework */; };
+		BCA4C118193619DC007EBE6A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C117193619DC007EBE6A /* MapKit.framework */; };
+		BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C11A19361A11007EBE6A /* MainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +52,11 @@
 		BCA4C10519361980007EBE6A /* ObrasTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ObrasTests-Info.plist"; sourceTree = "<group>"; };
 		BCA4C10719361980007EBE6A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BCA4C10919361980007EBE6A /* ObrasTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObrasTests.m; sourceTree = "<group>"; };
+		BCA4C113193619A0007EBE6A /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard.storyboard; path = ../Storyboard.storyboard; sourceTree = "<group>"; };
+		BCA4C115193619D5007EBE6A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		BCA4C117193619DC007EBE6A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		BCA4C11919361A11007EBE6A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		BCA4C11A19361A11007EBE6A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA4C118193619DC007EBE6A /* MapKit.framework in Frameworks */,
+				BCA4C116193619D5007EBE6A /* CoreLocation.framework in Frameworks */,
 				BCA4C0E719361980007EBE6A /* CoreGraphics.framework in Frameworks */,
 				BCA4C0E919361980007EBE6A /* UIKit.framework in Frameworks */,
 				BCA4C0E519361980007EBE6A /* Foundation.framework in Frameworks */,
@@ -96,6 +107,8 @@
 		BCA4C0E319361980007EBE6A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BCA4C117193619DC007EBE6A /* MapKit.framework */,
+				BCA4C115193619D5007EBE6A /* CoreLocation.framework */,
 				BCA4C0E419361980007EBE6A /* Foundation.framework */,
 				BCA4C0E619361980007EBE6A /* CoreGraphics.framework */,
 				BCA4C0E819361980007EBE6A /* UIKit.framework */,
@@ -109,6 +122,9 @@
 			children = (
 				BCA4C0F319361980007EBE6A /* AppDelegate.h */,
 				BCA4C0F419361980007EBE6A /* AppDelegate.m */,
+				BCA4C113193619A0007EBE6A /* Storyboard.storyboard */,
+				BCA4C11919361A11007EBE6A /* MainViewController.h */,
+				BCA4C11A19361A11007EBE6A /* MainViewController.m */,
 				BCA4C0F619361980007EBE6A /* Images.xcassets */,
 				BCA4C0EB19361980007EBE6A /* Supporting Files */,
 			);
@@ -221,6 +237,7 @@
 			files = (
 				BCA4C0EF19361980007EBE6A /* InfoPlist.strings in Resources */,
 				BCA4C0F719361980007EBE6A /* Images.xcassets in Resources */,
+				BCA4C114193619A0007EBE6A /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA4C0F519361980007EBE6A /* AppDelegate.m in Sources */,
+				BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */,
 				BCA4C0F119361980007EBE6A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

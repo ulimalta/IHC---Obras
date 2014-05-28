@@ -23,6 +23,10 @@
 		BCA4C116193619D5007EBE6A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C115193619D5007EBE6A /* CoreLocation.framework */; };
 		BCA4C118193619DC007EBE6A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C117193619DC007EBE6A /* MapKit.framework */; };
 		BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C11A19361A11007EBE6A /* MainViewController.m */; };
+		BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C11D19361C60007EBE6A /* MapViewController.m */; };
+		BCA4C12219362113007EBE6A /* gps1.gpx in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C12119362113007EBE6A /* gps1.gpx */; };
+		BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */; };
+		BCA4C127193625F0007EBE6A /* Obras.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C126193625F0007EBE6A /* Obras.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,12 @@
 		BCA4C117193619DC007EBE6A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		BCA4C11919361A11007EBE6A /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		BCA4C11A19361A11007EBE6A /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		BCA4C11C19361C60007EBE6A /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		BCA4C11D19361C60007EBE6A /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		BCA4C12119362113007EBE6A /* gps1.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = gps1.gpx; path = Obras/gps1.gpx; sourceTree = "<group>"; };
+		BCA4C123193623AE007EBE6A /* MapViewAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAnnotation.h; sourceTree = "<group>"; };
+		BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotation.m; sourceTree = "<group>"; };
+		BCA4C126193625F0007EBE6A /* Obras.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Obras.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +98,7 @@
 		BCA4C0D819361980007EBE6A = {
 			isa = PBXGroup;
 			children = (
+				BCA4C12119362113007EBE6A /* gps1.gpx */,
 				BCA4C0EA19361980007EBE6A /* Obras */,
 				BCA4C10319361980007EBE6A /* ObrasTests */,
 				BCA4C0E319361980007EBE6A /* Frameworks */,
@@ -120,9 +131,14 @@
 		BCA4C0EA19361980007EBE6A /* Obras */ = {
 			isa = PBXGroup;
 			children = (
+				BCA4C128193625F5007EBE6A /* Images */,
 				BCA4C0F319361980007EBE6A /* AppDelegate.h */,
 				BCA4C0F419361980007EBE6A /* AppDelegate.m */,
 				BCA4C113193619A0007EBE6A /* Storyboard.storyboard */,
+				BCA4C11C19361C60007EBE6A /* MapViewController.h */,
+				BCA4C11D19361C60007EBE6A /* MapViewController.m */,
+				BCA4C123193623AE007EBE6A /* MapViewAnnotation.h */,
+				BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */,
 				BCA4C11919361A11007EBE6A /* MainViewController.h */,
 				BCA4C11A19361A11007EBE6A /* MainViewController.m */,
 				BCA4C0F619361980007EBE6A /* Images.xcassets */,
@@ -158,6 +174,14 @@
 				BCA4C10619361980007EBE6A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BCA4C128193625F5007EBE6A /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				BCA4C126193625F0007EBE6A /* Obras.jpg */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,9 +259,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA4C12219362113007EBE6A /* gps1.gpx in Resources */,
 				BCA4C0EF19361980007EBE6A /* InfoPlist.strings in Resources */,
 				BCA4C0F719361980007EBE6A /* Images.xcassets in Resources */,
 				BCA4C114193619A0007EBE6A /* Storyboard.storyboard in Resources */,
+				BCA4C127193625F0007EBE6A /* Obras.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +285,8 @@
 				BCA4C0F519361980007EBE6A /* AppDelegate.m in Sources */,
 				BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */,
 				BCA4C0F119361980007EBE6A /* main.m in Sources */,
+				BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */,
+				BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

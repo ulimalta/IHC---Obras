@@ -27,6 +27,8 @@
 		BCA4C12219362113007EBE6A /* gps1.gpx in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C12119362113007EBE6A /* gps1.gpx */; };
 		BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */; };
 		BCA4C127193625F0007EBE6A /* Obras.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C126193625F0007EBE6A /* Obras.jpg */; };
+		BCA6C2811938A30F00153819 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA6C2801938A30F00153819 /* DetailViewController.m */; };
+		BCA6C2841938A33600153819 /* NewConstructionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA6C2831938A33600153819 /* NewConstructionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,10 @@
 		BCA4C123193623AE007EBE6A /* MapViewAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAnnotation.h; sourceTree = "<group>"; };
 		BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAnnotation.m; sourceTree = "<group>"; };
 		BCA4C126193625F0007EBE6A /* Obras.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Obras.jpg; sourceTree = "<group>"; };
+		BCA6C27F1938A30F00153819 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		BCA6C2801938A30F00153819 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		BCA6C2821938A33600153819 /* NewConstructionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewConstructionViewController.h; sourceTree = "<group>"; };
+		BCA6C2831938A33600153819 /* NewConstructionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewConstructionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +141,10 @@
 				BCA4C0F319361980007EBE6A /* AppDelegate.h */,
 				BCA4C0F419361980007EBE6A /* AppDelegate.m */,
 				BCA4C113193619A0007EBE6A /* Storyboard.storyboard */,
+				BCA6C2821938A33600153819 /* NewConstructionViewController.h */,
+				BCA6C2831938A33600153819 /* NewConstructionViewController.m */,
+				BCA6C27F1938A30F00153819 /* DetailViewController.h */,
+				BCA6C2801938A30F00153819 /* DetailViewController.m */,
 				BCA4C11C19361C60007EBE6A /* MapViewController.h */,
 				BCA4C11D19361C60007EBE6A /* MapViewController.m */,
 				BCA4C123193623AE007EBE6A /* MapViewAnnotation.h */,
@@ -287,6 +297,8 @@
 				BCA4C0F119361980007EBE6A /* main.m in Sources */,
 				BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */,
 				BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */,
+				BCA6C2811938A30F00153819 /* DetailViewController.m in Sources */,
+				BCA6C2841938A33600153819 /* NewConstructionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +499,7 @@
 				BCA4C10F19361980007EBE6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BCA4C11019361980007EBE6A /* Build configuration list for PBXNativeTarget "ObrasTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +508,7 @@
 				BCA4C11219361980007EBE6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -30,7 +30,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="PAO-MA-9ug">
-                        <barButtonItem key="leftBarButtonItem" title="Log In" id="3ln-hd-1b8"/>
+                        <barButtonItem key="leftBarButtonItem" title="Log In" id="3ln-hd-1b8">
+                            <connections>
+                                <action selector="logInOutButton:" destination="td1-ha-hEf" id="hkf-ml-BbR"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Mapa" id="sn3-RU-BLi">
                             <connections>
                                 <action selector="MApButtonAction:" destination="td1-ha-hEf" id="g0r-4H-8PA"/>
@@ -41,6 +45,7 @@
                         <outlet property="MapButton" destination="sn3-RU-BLi" id="sD7-r0-N9G"/>
                         <outlet property="MyTabBar" destination="00x-oO-rkh" id="vRK-4R-TdJ"/>
                         <outlet property="TitleNavigationItem" destination="PAO-MA-9ug" id="ezE-ne-MNO"/>
+                        <outlet property="logInOutButton" destination="3ln-hd-1b8" id="PnE-O9-fk7"/>
                         <segue destination="RbR-yh-Kxn" kind="modal" identifier="mapSegue" id="BQr-lI-gjl"/>
                     </connections>
                 </viewController>
@@ -141,7 +146,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bia-5V-pSb">
-                                                    <rect key="frame" x="10" y="8" width="300" height="61"/>
+                                                    <rect key="frame" x="20" y="8" width="280" height="61"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>

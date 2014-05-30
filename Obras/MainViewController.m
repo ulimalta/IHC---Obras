@@ -8,15 +8,27 @@
 
 #import "MainViewController.h"
 
+
 @interface MainViewController ()
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *MapButton;
 @property (weak, nonatomic) IBOutlet UITabBar *MyTabBar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *logInOutButton;
 
 @end
 
 @implementation MainViewController
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    if (![PFUser currentUser]) {
+        self.logInOutButton.title = @"Log In";
+    }
+    else {
+        self.logInOutButton.title = @"Log Out";
+    }
+}
 
 - (void)viewDidLoad
 {
@@ -38,6 +50,83 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (IBAction)logInOutButton:(id)sender {
+    if ([PFUser currentUser]) {
+        self.logInOutButton.title = @"Log In";
+        [PFUser logOut ];
+        
+    }
+    else {
+        NSLog(@"vadfasdfa");
+        PFLogInViewController * login = [[PFLogInViewController alloc]init];
+        login.delegate = self;
+        login.signUpController.delegate = self;
+        [self presentViewController: login animated: YES completion: NULL];
+    }
+}
+
+- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
+    if (username && password && username.length != 0 && password.length != 0) {
+        return YES;
+    }
+    [[[UIAlertView alloc] initWithTitle: @"Campos não preenchidos"
+                                message: @"Certifique-se de preencher todos os campos!"
+                               delegate: nil
+                      cancelButtonTitle: @"ok"
+                      otherButtonTitles: nil] show];
+    return NO;
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+    self.logInOutButton.title = @"Log Out";
+    [self dismissViewControllerAnimated: YES completion: NULL];
+}
+
+- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
+    NSLog(@"Failed to log in...");
+    [[[UIAlertView alloc] initWithTitle: @"Erro"
+                                message: @"Usuário ou senha incorretos."
+                               delegate: nil
+                      cancelButtonTitle: @"ok"
+                      otherButtonTitles: nil] show];
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController shouldBeginSignUp:(NSDictionary *)info {
+    BOOL informationComplete = YES;
+    for (id key in info) {
+        NSString *field = [info objectForKey:key];
+        if (!field || field.length == 0) {
+            informationComplete = NO;
+            break;
+        }
+    }
+    if (!informationComplete) {
+        [[[UIAlertView alloc] initWithTitle: @"Campos não preenchidos."
+                                    message: @"Certifique-se de preencher todos os campos"
+                                   delegate: nil
+                          cancelButtonTitle: @"ok"
+                          otherButtonTitles: nil] show];
+    }
+    return informationComplete;
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    self.logInOutButton.title = @"Log Out";
+    [self dismissViewControllerAnimated: YES completion: nil];
+}
+
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didFailToSignUpWithError:(NSError *)error {
+    NSLog(@"Failed to sign up...");
+}
+
+- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
+    NSLog(@"User dismissed the signUpViewController");
 }
 
 - (IBAction)MApButtonAction:(id)sender {

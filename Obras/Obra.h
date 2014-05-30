@@ -19,5 +19,6 @@
 @property (nonatomic, strong) NSMutableArray *comentarios;
 @property (nonatomic, strong) Usuario *usuario;
 @property (nonatomic, strong) NSMutableArray *pictures;
+@property (nonatomic, strong) NSString *descricao;
 
 @end

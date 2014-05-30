@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BC478C561938BC4500E7F1EA /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA6C2801938A30F00153819 /* DetailViewController.m */; };
 		BC478C581938C12800E7F1EA /* default-image.png in Resources */ = {isa = PBXBuildFile; fileRef = BC478C571938C12800E7F1EA /* default-image.png */; };
+		BC478C5B1938D7A800E7F1EA /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC478C5A1938D7A800E7F1EA /* CommentCell.m */; };
 		BCA4C0E519361980007EBE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E419361980007EBE6A /* Foundation.framework */; };
 		BCA4C0E719361980007EBE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E619361980007EBE6A /* CoreGraphics.framework */; };
 		BCA4C0E919361980007EBE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E819361980007EBE6A /* UIKit.framework */; };
@@ -57,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		BC478C571938C12800E7F1EA /* default-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-image.png"; sourceTree = "<group>"; };
+		BC478C591938D7A800E7F1EA /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		BC478C5A1938D7A800E7F1EA /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		BCA4C0E119361980007EBE6A /* Obras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Obras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA4C0E419361980007EBE6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BCA4C0E619361980007EBE6A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -191,6 +194,8 @@
 				BCA4C0F319361980007EBE6A /* AppDelegate.h */,
 				BCA4C0F419361980007EBE6A /* AppDelegate.m */,
 				BCA4C113193619A0007EBE6A /* Storyboard.storyboard */,
+				BC478C591938D7A800E7F1EA /* CommentCell.h */,
+				BC478C5A1938D7A800E7F1EA /* CommentCell.m */,
 				BCA6C2821938A33600153819 /* NewConstructionViewController.h */,
 				BCA6C2831938A33600153819 /* NewConstructionViewController.m */,
 				BCA6C27F1938A30F00153819 /* DetailViewController.h */,
@@ -359,6 +364,7 @@
 				BCA4C0F119361980007EBE6A /* main.m in Sources */,
 				BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */,
 				BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */,
+				BC478C5B1938D7A800E7F1EA /* CommentCell.m in Sources */,
 				E1C17DCE1938AAE30094BF9C /* Usuario.m in Sources */,
 				BCA6C2841938A33600153819 /* NewConstructionViewController.m in Sources */,
 				E1C17DCB1938AA270094BF9C /* Comentario.m in Sources */,

@@ -13,6 +13,7 @@
 #import "Usuario.h"
 #import "Comentario.h"
 #import "DatabaseUtilities.h"
+#import "CommentCell.h"
 
 @interface DetailViewController : UIViewController
 

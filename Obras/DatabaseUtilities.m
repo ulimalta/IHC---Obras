@@ -7,8 +7,6 @@
 //
 
 #import "DatabaseUtilities.h"
-#import <Parse/Parse.h>
-#import "Obra.h"
 
 @implementation DatabaseUtilities
 
@@ -22,10 +20,28 @@
     o1.titulo = @"ic";
     o1.latitude = -22.814558;
     o1.longitude = -47.063456;
+    o1.descricao = @"a,ansfj,sandfsa,jnafdjjesbkjashjgfjdsfjkdsajdfgasjgdfjhasdgfhjgsfjhsgjdhfgjsadhgfhjdsgfjhgasdjhfghjasd o1";
+    UIImage *img = [UIImage imageNamed: @"default-image.png"];
+    [[o1 pictures] addObject: img];
+    img = [UIImage imageNamed: @"Obras.jpg"];
+    [[o1 pictures] addObject: img];
+    
+    Comentario *c1 = [[Comentario alloc] init];
+    c1.comment = @"qwqwqwqwqwqwqwq";
+    Comentario *c2 = [[Comentario alloc] init];
+    c2.comment = @"qwqwqwqwqwqwqwqmsdfbjskdhfkjsadhkjfhasdfhasdjfhadsjfhksahfjk";
+    Comentario *c3 = [[Comentario alloc] init];
+    c3.comment = @"qwqwqwqwqwqwqwqkhjsdgfhksadhkfgasdjfghjasdgfhj0000";
+    [[o1 comentarios] addObject: c1];
+    [[o1 comentarios] addObject: c2];
+    [[o1 comentarios] addObject: c3];
+    
+    
     Obra * o2 = [[Obra   alloc ] init];
     o2.titulo = @"bara";
     o2.latitude = -22.813578;
     o2.longitude = -47.063486;
+    o2.descricao = @"asfsafsasfsadadsasdfasdasdasdhkbdSahbdjhsfbdjhbdshjdfbjhdsbfdhjbdsajhfbajsdhbfjkhsbnxzmnbcjznbchj o2";
     NSArray * array = @[o1,o2];
     
     return array ;

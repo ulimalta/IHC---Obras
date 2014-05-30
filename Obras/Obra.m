@@ -10,7 +10,16 @@
 
 @implementation Obra
 
-
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.pictures = [[NSMutableArray alloc] init];
+        self.comentarios = [[NSMutableArray alloc] init];
+        self.usuario = [[Usuario alloc] init];
+    }
+    return self;
+}
 
 
 @end

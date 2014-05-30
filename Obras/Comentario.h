@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Usuario.h"
+
 @interface Comentario : NSObject
+
+@property (nonatomic, strong) NSString *comment;
+@property (nonatomic, strong) Usuario *user;
+@property (nonatomic, strong) NSString *postDate;
 
 @end

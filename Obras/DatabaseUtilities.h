@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
+
+#import "Obra.h"
+#import "Usuario.h"
+#import "Comentario.h"
 
 @interface DatabaseUtilities : NSObject
 

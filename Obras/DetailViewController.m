@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *Picture;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UITableView *CommentsTableView;
+@property (weak, nonatomic) IBOutlet UILabel *backLabel;
 
 @property (nonatomic) NSInteger currentPicture;
 
@@ -77,6 +78,12 @@
     self.CommentsTableView.separatorInset = UIEdgeInsetsZero;
     self.CommentsTableView.dataSource = self;
     self.CommentsTableView.delegate = self;
+    self.CommentsTableView.separatorColor = [UIColor clearColor];
+    
+    self.backLabel.backgroundColor = [UIColor colorWithRed: 0.9
+                                                     green: 0.9
+                                                      blue: 0.9
+                                                     alpha: 1.0];
 }
 
 - (void)swipeHandlerLeft:(UISwipeGestureRecognizer*)gestureRecognizer
@@ -143,7 +150,7 @@
     cell.DescriptionTextView.layer.cornerRadius = 5.0;
     cell.DescriptionTextView.clipsToBounds = YES;
     cell.DescriptionTextView.editable = NO;
-    cell.InfoLabel.text = [NSString stringWithFormat: @"%@ %@", [self.construction usuario].userName, comment.postDate];
+    cell.InfoLabel.text = [NSString stringWithFormat: @"%@ %@", [comment user].userName, comment.postDate];
     textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 10];
     cell.InfoLabel.font = textFont;
     cell.InfoLabel.textColor = [UIColor blackColor];
@@ -155,10 +162,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    cell.backgroundColor = [UIColor colorWithRed: 0.9
-                                           green: 0.9
-                                            blue: 0.9
-                                           alpha: 0.4];
+    cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
 }

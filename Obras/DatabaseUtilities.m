@@ -32,6 +32,9 @@
     c2.comment = @"qwqwqwqwqwqwqwqmsdfbjskdhfkjsadhkjfhasdfhasdjfhadsjfhksahfjk";
     Comentario *c3 = [[Comentario alloc] init];
     c3.comment = @"qwqwqwqwqwqwqwqkhjsdgfhksadhkfgasdjfghjasdgfhj0000";
+    [[c1 user] setUserName:@"asdfsdfsdasdfsfs222s"];
+    [[c2 user ] setUserName:@"asdfsdfsd221111 eas"];
+    [[c3 user] setUserName:@"asdfsdfsdas"];
     [[o1 comentarios] addObject: c1];
     [[o1 comentarios] addObject: c2];
     [[o1 comentarios] addObject: c3];

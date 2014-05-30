@@ -8,11 +8,11 @@
 
 #import "MapViewController.h"
 
-
 @interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackButton;
 @property (weak, nonatomic) IBOutlet MKMapView *MyMap;
+@property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 
 @property (strong, nonatomic) MKUserLocation* userLocation;
 
@@ -28,6 +28,17 @@
     self.MyMap.delegate = self;
     self.MyMap.mapType = MKMapTypeStandard;
     
+    UIFont *textFont = [UIFont fontWithName: @"Chalkduster" size: 17];
+    UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
+	
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
+    titleLabel.font = textFont;
+    titleLabel.textColor = textColor;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.text = @"Mapa Obras";
+    
+    [self.TitleNavigationItem setTitleView: titleLabel];
 }
 
 - (void)didReceiveMemoryWarning
@@ -100,7 +111,7 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    NSLog(@"Tap detectado");
+    [self performSegueWithIdentifier: @"detailSegue" sender: self];
 }
 
 @end

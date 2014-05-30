@@ -30,6 +30,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="PAO-MA-9ug">
+                        <barButtonItem key="leftBarButtonItem" title="Log In" id="3ln-hd-1b8"/>
                         <barButtonItem key="rightBarButtonItem" title="Mapa" id="sn3-RU-BLi">
                             <connections>
                                 <action selector="MApButtonAction:" destination="td1-ha-hEf" id="g0r-4H-8PA"/>

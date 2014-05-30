@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC478C561938BC4500E7F1EA /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA6C2801938A30F00153819 /* DetailViewController.m */; };
+		BC478C581938C12800E7F1EA /* default-image.png in Resources */ = {isa = PBXBuildFile; fileRef = BC478C571938C12800E7F1EA /* default-image.png */; };
 		BCA4C0E519361980007EBE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E419361980007EBE6A /* Foundation.framework */; };
 		BCA4C0E719361980007EBE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E619361980007EBE6A /* CoreGraphics.framework */; };
 		BCA4C0E919361980007EBE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E819361980007EBE6A /* UIKit.framework */; };
@@ -27,7 +29,6 @@
 		BCA4C12219362113007EBE6A /* gps1.gpx in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C12119362113007EBE6A /* gps1.gpx */; };
 		BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */; };
 		BCA4C127193625F0007EBE6A /* Obras.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BCA4C126193625F0007EBE6A /* Obras.jpg */; };
-		BCA6C2811938A30F00153819 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA6C2801938A30F00153819 /* DetailViewController.m */; };
 		BCA6C2841938A33600153819 /* NewConstructionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCA6C2831938A33600153819 /* NewConstructionViewController.m */; };
 		E1C17DB21938A3B20094BF9C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C17DB11938A3B20094BF9C /* Parse.framework */; };
 		E1C17DB41938A3F50094BF9C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C17DB31938A3F50094BF9C /* AudioToolbox.framework */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC478C571938C12800E7F1EA /* default-image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "default-image.png"; sourceTree = "<group>"; };
 		BCA4C0E119361980007EBE6A /* Obras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Obras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA4C0E419361980007EBE6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BCA4C0E619361980007EBE6A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -202,9 +204,9 @@
 				BCA4C0F619361980007EBE6A /* Images.xcassets */,
 				BCA4C0EB19361980007EBE6A /* Supporting Files */,
 				E1C17DC31938A7D70094BF9C /* DatabaseUtilities.h */,
+				E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */,
 				E1C17DCC1938AAE30094BF9C /* Usuario.h */,
 				E1C17DCD1938AAE30094BF9C /* Usuario.m */,
-				E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */,
 				E1C17DC61938A9810094BF9C /* Obra.h */,
 				E1C17DC71938A9810094BF9C /* Obra.m */,
 				E1C17DC91938AA270094BF9C /* Comentario.h */,
@@ -245,6 +247,7 @@
 		BCA4C128193625F5007EBE6A /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				BC478C571938C12800E7F1EA /* default-image.png */,
 				BCA4C126193625F0007EBE6A /* Obras.jpg */,
 			);
 			name = Images;
@@ -330,6 +333,7 @@
 				BCA4C0F719361980007EBE6A /* Images.xcassets in Resources */,
 				BCA4C114193619A0007EBE6A /* Storyboard.storyboard in Resources */,
 				BCA4C127193625F0007EBE6A /* Obras.jpg in Resources */,
+				BC478C581938C12800E7F1EA /* default-image.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +352,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC478C561938BC4500E7F1EA /* DetailViewController.m in Sources */,
 				BCA4C0F519361980007EBE6A /* AppDelegate.m in Sources */,
 				E1C17DC81938A9810094BF9C /* Obra.m in Sources */,
 				BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */,
@@ -355,7 +360,6 @@
 				BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */,
 				BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */,
 				E1C17DCE1938AAE30094BF9C /* Usuario.m in Sources */,
-				BCA6C2811938A30F00153819 /* DetailViewController.m in Sources */,
 				BCA6C2841938A33600153819 /* NewConstructionViewController.m in Sources */,
 				E1C17DCB1938AA270094BF9C /* Comentario.m in Sources */,
 				E1C17DC51938A7D70094BF9C /* DatabaseUtilities.m in Sources */,

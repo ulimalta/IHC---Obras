@@ -13,6 +13,25 @@
 @implementation DatabaseUtilities
 
 
+
+
++ (NSArray* ) getObras
+{
+    
+    Obra * o1 = [[Obra   alloc ] init];
+    o1.titulo = @"ic";
+    o1.latitude = -22.814558;
+    o1.longitude = -47.063456;
+    Obra * o2 = [[Obra   alloc ] init];
+    o2.titulo = @"bara";
+    o2.latitude = -22.813578;
+    o2.longitude = -47.063486;
+    NSArray * array = @[o1,o2];
+    
+    return array ;
+    
+    
+}
 //
 //+ (void) uploadPost:(Obra *)obra
 //{

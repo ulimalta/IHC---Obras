@@ -10,4 +10,6 @@
 
 @interface DatabaseUtilities : NSObject
 
++ (NSArray* ) getObras;
+
 @end

@@ -50,6 +50,17 @@
     [self dismissViewControllerAnimated: YES completion: nil];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Pegar objeto certo
+    Obra *o = [[DatabaseUtilities getObras] objectAtIndex: 0];
+    if ([[segue identifier] isEqualToString: @"detailSegue"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        DetailViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
+        [nextController setConstruction: o];
+    }
+}
+
 #pragma mark - MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
@@ -69,7 +80,7 @@
     
     MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: location title: @"Teste" subTitle: @"Meu teste"];
     [self.MyMap addAnnotation: annotation];
-    MKCircle *circle = [MKCircle circleWithCenterCoordinate: location radius: 20];
+    MKCircle *circle = [MKCircle circleWithCenterCoordinate: location radius: 40];
     [self.MyMap addOverlay: circle];
 
 }

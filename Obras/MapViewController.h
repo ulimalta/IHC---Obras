@@ -11,7 +11,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Parse/Parse.h>
 
+#import "Obra.h"
+#import "Usuario.h"
+#import "Comentario.h"
 #import "MapViewAnnotation.h"
+#import "DatabaseUtilities.h"
+#import "DetailViewController.h"
 
 @interface MapViewController : UIViewController
 

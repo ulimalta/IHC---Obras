@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+
+#import "Obra.h"
+#import "Usuario.h"
+#import "Comentario.h"
+#import "DatabaseUtilities.h"
 
 @interface DetailViewController : UIViewController
+
+@property (nonatomic, strong) Obra *construction;
+
+- (void)setConstruction:(Obra *)obra;
 
 @end

@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "Comentario.h"
 #import "Usuario.h"
 
 @interface Obra : NSObject
 
-@property (nonatomic,strong) NSString * titulo;
+@property (nonatomic, strong) NSString *titulo;
 @property (nonatomic) float  latitude;
 @property (nonatomic) float  longitude;
-@property (nonatomic,strong) NSMutableArray *comentarios;
-@property (nonatomic,strong) Usuario * usuario;
-
+@property (nonatomic, strong) NSMutableArray *comentarios;
+@property (nonatomic, strong) Usuario *usuario;
+@property (nonatomic, strong) NSMutableArray *pictures;
 
 @end

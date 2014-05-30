@@ -38,6 +38,10 @@
 		E1C17DBE1938A4310094BF9C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C17DBD1938A4310094BF9C /* Security.framework */; };
 		E1C17DC01938A4390094BF9C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C17DBF1938A4390094BF9C /* StoreKit.framework */; };
 		E1C17DC21938A4410094BF9C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1C17DC11938A4410094BF9C /* SystemConfiguration.framework */; };
+		E1C17DC51938A7D70094BF9C /* DatabaseUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */; };
+		E1C17DC81938A9810094BF9C /* Obra.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C17DC71938A9810094BF9C /* Obra.m */; };
+		E1C17DCB1938AA270094BF9C /* Comentario.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C17DCA1938AA270094BF9C /* Comentario.m */; };
+		E1C17DCE1938AAE30094BF9C /* Usuario.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C17DCD1938AAE30094BF9C /* Usuario.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +95,14 @@
 		E1C17DBD1938A4310094BF9C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E1C17DBF1938A4390094BF9C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E1C17DC11938A4410094BF9C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E1C17DC31938A7D70094BF9C /* DatabaseUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseUtilities.h; sourceTree = "<group>"; };
+		E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseUtilities.m; sourceTree = "<group>"; };
+		E1C17DC61938A9810094BF9C /* Obra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Obra.h; sourceTree = "<group>"; };
+		E1C17DC71938A9810094BF9C /* Obra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Obra.m; sourceTree = "<group>"; };
+		E1C17DC91938AA270094BF9C /* Comentario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comentario.h; sourceTree = "<group>"; };
+		E1C17DCA1938AA270094BF9C /* Comentario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comentario.m; sourceTree = "<group>"; };
+		E1C17DCC1938AAE30094BF9C /* Usuario.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usuario.h; sourceTree = "<group>"; };
+		E1C17DCD1938AAE30094BF9C /* Usuario.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usuario.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +201,14 @@
 				BCA4C11A19361A11007EBE6A /* MainViewController.m */,
 				BCA4C0F619361980007EBE6A /* Images.xcassets */,
 				BCA4C0EB19361980007EBE6A /* Supporting Files */,
+				E1C17DC31938A7D70094BF9C /* DatabaseUtilities.h */,
+				E1C17DCC1938AAE30094BF9C /* Usuario.h */,
+				E1C17DCD1938AAE30094BF9C /* Usuario.m */,
+				E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */,
+				E1C17DC61938A9810094BF9C /* Obra.h */,
+				E1C17DC71938A9810094BF9C /* Obra.m */,
+				E1C17DC91938AA270094BF9C /* Comentario.h */,
+				E1C17DCA1938AA270094BF9C /* Comentario.m */,
 			);
 			path = Obras;
 			sourceTree = "<group>";
@@ -329,12 +349,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCA4C0F519361980007EBE6A /* AppDelegate.m in Sources */,
+				E1C17DC81938A9810094BF9C /* Obra.m in Sources */,
 				BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */,
 				BCA4C0F119361980007EBE6A /* main.m in Sources */,
 				BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */,
 				BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */,
+				E1C17DCE1938AAE30094BF9C /* Usuario.m in Sources */,
 				BCA6C2811938A30F00153819 /* DetailViewController.m in Sources */,
 				BCA6C2841938A33600153819 /* NewConstructionViewController.m in Sources */,
+				E1C17DCB1938AA270094BF9C /* Comentario.m in Sources */,
+				E1C17DC51938A7D70094BF9C /* DatabaseUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

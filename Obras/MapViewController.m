@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 
+
 @interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackButton;
@@ -26,6 +27,7 @@
     self.MyMap.showsUserLocation = YES;
     self.MyMap.delegate = self;
     self.MyMap.mapType = MKMapTypeStandard;
+    
 }
 
 - (void)didReceiveMemoryWarning

@@ -18,7 +18,8 @@
 //+ (NSArray* ) getObras;
 
 + (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock;
-
++ (void) uploadObra:(Obra *)obra;
++ (void) updateCommentsInObra:(Obra*)obra;
 + (Usuario *) getCurrentUser;
 
 @end

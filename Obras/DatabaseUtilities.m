@@ -53,14 +53,18 @@
 //    
 //}
 
-+ (void) uploadObra:(Obra *)obra forUserLatitude:(double)userLatitude userLongitude:(double)userLongitude
++ (void) uploadObra:(Obra *)obra
 {
     PFObject *newObra = [PFObject objectWithClassName:@"Obra"];
+    //newObra[@"usuario"] = obra.usuario;
     newObra[@"descricao"] = obra.descricao;
     newObra[@"titulo"] = obra.titulo;
-    PFGeoPoint *pfgeoPoint = [PFGeoPoint geoPointWithLatitude:userLatitude longitude:userLongitude];
+    PFGeoPoint *pfgeoPoint = [PFGeoPoint geoPointWithLatitude:obra.lat longitude:obra.longi];
     newObra[@"location"] = pfgeoPoint;
     newObra[@"comentarios"] = obra.comentarios;
+    newObra[@"numeroDislikes"] = [NSNumber numberWithInt:obra.numeroDislikes];
+    newObra[@"numeroLikes"] = [NSNumber numberWithInt:obra.numeroLikes];
+    
     [newObra saveInBackground];
     
 }
@@ -69,7 +73,7 @@
 {
     PFQuery* obraQuery = [PFQuery queryWithClassName:@"Obra"];
     [obraQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
-        object[@"comentarios"] = obra.comentarios;
+        object[@"comentarios"] = [obra.comentarios copy];
         [object saveInBackground];
         
     }];
@@ -100,8 +104,11 @@
             for (PFObject *object in objects) {
                 Obra * minhaObra = [[Obra alloc]init];
                 minhaObra.obraId = object.objectId;
-                minhaObra.comentarios =  object[@"comentarios"];
+                minhaObra.usuario = object[@"usuario"];
+                minhaObra.comentarios =  [object[@"comentarios"] mutableCopy];
                 minhaObra.titulo = object[@"titulo"];
+                minhaObra.numeroDislikes = [object[@"numeroDislikes"] intValue];
+                minhaObra.numeroLikes = [object[@"numeroLikes"] intValue];
                 minhaObra.descricao = object[@"descricao"];
                 minhaObra.lat = ((PFGeoPoint*)object[@"location"]).latitude;
                 minhaObra.longi = ((PFGeoPoint*)object[@"location"]).longitude;

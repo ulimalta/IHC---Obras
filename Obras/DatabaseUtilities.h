@@ -15,13 +15,14 @@
 
 @interface DatabaseUtilities : NSObject
 
-//+ (NSArray* ) getObras;
-
-+ (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock;
++ (void) getObrasForUserLatitude:(double)userLatitude
+                   userLongitude:(double)userLongitude
+             withCompletionBlock:(void (^) (NSArray* )) completionBlock;
 + (void) uploadObra:(Obra *)obra;
 + (void) uploadComment:(Comentario* )comentario InObra:(Obra*)obra;
 + (void) updateObraLikesAndDislikes:(Obra *)obra;
 + (void) getAllCommentsFromObra:(Obra*)obra withCompletionBlock:(void (^) (NSArray* )) completionBlock;
 + (Usuario *) getCurrentUser;
++ (void) uploadPhoto:(UIImage*)photo toObra:(Obra*)obra;
 
 @end

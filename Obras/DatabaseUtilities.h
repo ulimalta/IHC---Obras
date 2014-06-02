@@ -25,5 +25,6 @@
 + (Usuario *) getCurrentUser;
 + (void) uploadPhoto:(UIImage*)photo toObra:(Obra*)obra;
 + (void) getOneAndOnlyOnePictureFromObra:(Obra *)obra withCompletionBlock:(void (^) (UIImage* )) completionBlock;
++ (void) getObrasMostRecentWithCompletionBlock:(void (^) (NSArray* )) completionBlock;
 
 @end

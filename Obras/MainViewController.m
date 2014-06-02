@@ -11,13 +11,15 @@
 #import "DatabaseUtilities.h"
 
 
-@interface MainViewController ()
+@interface MainViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *MapButton;
 @property (weak, nonatomic) IBOutlet UITabBar *MyTabBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logInOutButton;
 @property (weak, nonatomic) IBOutlet UITableView *mainTableView;
+
+@property (nonatomic, strong) NSMutableArray *cArray;
 
 @end
 
@@ -50,42 +52,23 @@
     [refreshControl addTarget: self action: @selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.mainTableView addSubview: refreshControl];
     [self.MyTabBar setSelectedItem: [self.MyTabBar.items objectAtIndex: 0]];
+    self.cArray = [[NSMutableArray alloc] init];
+    self.mainTableView.dataSource = self;
+    self.mainTableView.delegate = self;
     
-    
-    
-    
-//    Obra* ob  = [[Obra alloc]init];
-//    ob.titulo = @"ihc eh nota 10";
-//    ob.descricao = @"bem amigos, estamos aqui para falar pouca falacia e muita acao";
-//    ob.lat = -44.99922;
-//    ob.longi = 23.4234234;
-//    ob.numeroDislikes = 1;
-//    ob.numeroLikes = 4;
-//    Usuario* usra = [[Usuario alloc]init];
-//    usra.userName = [DatabaseUtilities getCurrentUser].userName;
-//    usra.userID = [DatabaseUtilities getCurrentUser].userID;
-//    ob.usuario = usra;
-//    Comentario* cm1 = [[Comentario alloc]init];
-//    cm1.comment  = @"eu sou um comentarista";
-//    cm1.user = usra;
-//    Comentario* cm2 = [[Comentario alloc]init];
-//    cm2.comment  = @"eu sou um piadista";
-//    cm2.user = usra;
-//    [ob.comentarios addObject:cm1];
-//    [ob.comentarios addObject:cm2];
-//    [DatabaseUtilities uploadObra:ob];
-//
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
+        self.cArray = [constructionsArray mutableCopy];
+        for (Obra *ob in self.cArray) {
+            [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                ob.pictures = [[NSMutableArray alloc] init];
+                if (img) {
+                    [ob.pictures addObject: img];
+                    [self.mainTableView reloadData];
+                }
+            }];
+        }
+        [self.mainTableView reloadData];
+    }];
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -175,6 +158,37 @@
 
 - (IBAction)MApButtonAction:(id)sender {
     [self performSegueWithIdentifier: @"mapSegue" sender: self];
+}
+
+#pragma mark UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.cArray count];
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier: @"initialCell"];
+    Obra *ob = [self.cArray objectAtIndex: [indexPath row]];
+    
+    UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+    cell.textLabel.font = textFont;
+    cell.textLabel.text = ob.titulo;
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if ([ob.pictures count]) {
+        cell.imageView.image = [ob.pictures objectAtIndex: 0];
+    }
+    else {
+        cell.imageView.image = [UIImage imageNamed: @"Obras.jpg"];
+    }
+    return cell;
 }
 
 @end

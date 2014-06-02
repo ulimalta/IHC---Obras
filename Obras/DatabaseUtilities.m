@@ -118,12 +118,12 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
     [query whereKey:@"obra" equalTo:pfobra];
-    [query includeKey:@"photo"];
+    //[query includeKey:@"photo"];
     [query setLimit:1];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if(objects)
+        if([objects count])
         {
-            PFFile *myFile  = objects[0];
+            PFFile *myFile  = objects[0][@"photo"];
             [myFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
                 NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
                 [operation addExecutionBlock:^{
@@ -136,12 +136,7 @@
             
         }
     }];
-    
-    
-    
-    
 }
-
 
 + (void) getObrasForUserLatitude:(double)userLatitude
                    userLongitude:(double)userLongitude
@@ -181,6 +176,43 @@
                     
                 }];
                 [[NSOperationQueue mainQueue] addOperation:operation];                
+            }
+        }
+    }];
+}
+
+
++ (void) getObrasMostRecentWithCompletionBlock:(void (^) (NSArray* )) completionBlock
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Obra"];
+    [query setLimit:1000];
+    [query addDescendingOrder:@"updatedAt"];
+    [query includeKey:@"usuario"];
+    query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSMutableArray *obrasArray = [[NSMutableArray alloc]init];
+            for (PFObject *object in objects) {
+                Obra * minhaObra = [[Obra alloc]init];
+                minhaObra.obraId = object.objectId;
+                PFUser *pfObraUsuario = object[@"usuario"];
+                Usuario* obraUsuario = [[Usuario alloc]init];
+                obraUsuario.userID = pfObraUsuario.objectId;
+                obraUsuario.userName = pfObraUsuario.username;
+                minhaObra.usuario = obraUsuario;
+                
+                minhaObra.titulo = object[@"titulo"];
+                minhaObra.numeroDislikes = [object[@"numeroDislikes"] intValue];
+                minhaObra.numeroLikes = [object[@"numeroLikes"] intValue];
+                minhaObra.descricao = object[@"descricao"];
+                minhaObra.lat = ((PFGeoPoint*)object[@"location"]).latitude;
+                minhaObra.longi = ((PFGeoPoint*)object[@"location"]).longitude;
+                [obrasArray addObject:minhaObra];
+                NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
+                [operation addExecutionBlock:^{
+                    completionBlock(obrasArray);
+                }];
+                [[NSOperationQueue mainQueue] addOperation:operation];
             }
         }
     }];

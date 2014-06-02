@@ -133,8 +133,19 @@
 }
 
 
++ (void) updateObraLikesAndDislikes:(Obra *)obra
+{
+    PFQuery* postQuery = [PFQuery queryWithClassName:@"Obra"];
+    [postQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
+        object[@"numeroLikes"] = [NSNumber numberWithInteger:obra.numeroLikes];
+        object[@"numeroDislikes"] = [NSNumber numberWithInteger:obra.numeroDislikes];
+       
+        [object saveInBackground];
+        
+    }];
 
     
+}
     
 
 

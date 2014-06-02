@@ -15,7 +15,10 @@
 
 @interface DatabaseUtilities : NSObject
 
-+ (NSArray* ) getObras;
+//+ (NSArray* ) getObras;
+
++ (void) getObrasForUserLatitude:(float)userLatitude userLongitude:(float)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock;
+
 + (Usuario *) getCurrentUser;
 
 @end

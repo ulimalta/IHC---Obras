@@ -8,6 +8,7 @@
 
 #import "DatabaseUtilities.h"
 
+
 @implementation DatabaseUtilities
 
 
@@ -51,6 +52,17 @@
     
     
 }
+
++ (Usuario *) getCurrentUser
+{
+    PFUser *pfuser = [PFUser currentUser];
+    Usuario* currentUser = [[Usuario alloc]init];
+    currentUser.userName = pfuser[@"username"];
+    currentUser.userID = pfuser.objectId;
+    return currentUser;
+}
+
+
 //
 //+ (void) uploadPost:(Obra *)obra
 //{

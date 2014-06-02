@@ -187,10 +187,15 @@
                                 <action selector="BackButtonAction:" destination="X2t-XW-Lu2" id="zcn-5d-zHS"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Comentar" id="Nky-hl-eMR"/>
+                        <barButtonItem key="rightBarButtonItem" title="Comentar" id="Nky-hl-eMR">
+                            <connections>
+                                <action selector="commentAction:" destination="X2t-XW-Lu2" id="XEa-ii-Nfk"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="BackButton" destination="pLj-sG-TbT" id="yZ6-xo-DfF"/>
+                        <outlet property="CommentButton" destination="Nky-hl-eMR" id="kS1-9l-cmS"/>
                         <outlet property="CommentsTableView" destination="eG8-Xv-Ddg" id="hSp-iF-4Fn"/>
                         <outlet property="Picture" destination="KKA-yu-2zt" id="ZgB-UO-uTI"/>
                         <outlet property="TitleNavigationItem" destination="Hzz-e2-Mpg" id="3M7-cV-zOf"/>

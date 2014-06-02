@@ -8,7 +8,7 @@
 
 #import "DetailViewController.h"
 
-@interface DetailViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface DetailViewController () <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackButton;
@@ -16,8 +16,11 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UITableView *CommentsTableView;
 @property (weak, nonatomic) IBOutlet UILabel *backLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *CommentButton;
 
 @property (nonatomic) NSInteger currentPicture;
+@property (nonatomic) BOOL newComment;
+@property (nonatomic, strong) Comentario *c;
 
 @end
 
@@ -27,6 +30,7 @@
 {
     [super viewDidLoad];
     
+    self.newComment = NO;
     self.Picture.userInteractionEnabled = YES;
     if ([[self.construction pictures] count]) {
         self.currentPicture = 0;
@@ -124,6 +128,22 @@
      [self dismissViewControllerAnimated: YES completion: nil];
 }
 
+- (IBAction)commentAction:(id)sender {
+//    if (![PFUser currentUser]) {
+//        [[[UIAlertView alloc] initWithTitle: @"Log In."
+//                                    message: @"Você precisa estar logado para comentar!"
+//                                   delegate: nil
+//                          cancelButtonTitle: @"ok"
+//                          otherButtonTitles: nil] show];
+//        return;
+//    }
+    self.newComment = YES;
+    [[self.construction comentarios] insertObject: [[Comentario alloc] init] atIndex: [[self.construction comentarios] count]];
+    NSIndexPath *path = [NSIndexPath indexPathForRow: 0 inSection: 0];
+    [self.CommentsTableView insertRowsAtIndexPaths: @[path] withRowAnimation: UITableViewRowAnimationAutomatic];
+}
+
+
 #pragma mark UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -139,22 +159,46 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommentCell *cell = (CommentCell*)[tableView dequeueReusableCellWithIdentifier: @"commentCell"];
-    Comentario *comment = [[self.construction comentarios] objectAtIndex: [indexPath row]];
-    UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
-    cell.DescriptionTextView.text = comment.comment;
-    cell.DescriptionTextView.font = textFont;
-    cell.DescriptionTextView.textColor = [UIColor blackColor];
-    CGFloat borderWidth = 1.0;
-    cell.DescriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    cell.DescriptionTextView.layer.borderWidth = borderWidth;
-    cell.DescriptionTextView.layer.cornerRadius = 5.0;
-    cell.DescriptionTextView.clipsToBounds = YES;
-    cell.DescriptionTextView.editable = NO;
-    cell.InfoLabel.text = [NSString stringWithFormat: @"%@ %@", [comment user].userName, comment.postDate];
-    textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 10];
-    cell.InfoLabel.font = textFont;
-    cell.InfoLabel.textColor = [UIColor blackColor];
-    cell.InfoLabel.adjustsFontSizeToFitWidth = YES;
+    if (!self.newComment) {
+        Comentario *comment = [[self.construction comentarios] objectAtIndex: [indexPath row]];
+        UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+        cell.DescriptionTextView.text = comment.comment;
+        cell.DescriptionTextView.font = textFont;
+        cell.DescriptionTextView.textColor = [UIColor blackColor];
+        CGFloat borderWidth = 1.0;
+        cell.DescriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        cell.DescriptionTextView.layer.borderWidth = borderWidth;
+        cell.DescriptionTextView.layer.cornerRadius = 5.0;
+        cell.DescriptionTextView.clipsToBounds = YES;
+        cell.DescriptionTextView.editable = NO;
+        cell.InfoLabel.text = [NSString stringWithFormat: @"%@ %@", [comment user].userName, comment.postDate];
+        textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 10];
+        cell.InfoLabel.font = textFont;
+        cell.InfoLabel.textColor = [UIColor blackColor];
+        cell.InfoLabel.adjustsFontSizeToFitWidth = YES;
+    }
+    else {
+        self.c = [[Comentario alloc] init];
+        self.c.user = [DatabaseUtilities getCurrentUser];
+        self.c.comment = @"";
+        UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+        cell.DescriptionTextView.text = @"";
+        cell.DescriptionTextView.editable = YES;
+        cell.DescriptionTextView.textColor = [UIColor blackColor];
+        CGFloat borderWidth = 1.0;
+        cell.DescriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        cell.DescriptionTextView.layer.borderWidth = borderWidth;
+        cell.DescriptionTextView.layer.cornerRadius = 5.0;
+        cell.DescriptionTextView.clipsToBounds = YES;
+        [cell.DescriptionTextView becomeFirstResponder];
+        cell.InfoLabel.text = [NSString stringWithFormat: @"%@ %@", [self.c user].userName, self.c.postDate];
+        textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 10];
+        cell.InfoLabel.font = textFont;
+        cell.InfoLabel.textColor = [UIColor blackColor];
+        cell.InfoLabel.adjustsFontSizeToFitWidth = YES;
+        
+        self.newComment = NO;
+    }
     return cell;
 }
 
@@ -165,6 +209,28 @@
     cell.backgroundColor = [UIColor whiteColor];
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+}
+
+#pragma mark UITextViewDelegate
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    textView.editable = NO;
+    self.newComment = NO;
+    [[self.construction comentarios] replaceObjectAtIndex: [[self.construction comentarios] count]-1 withObject: self.c];
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text rangeOfString: @"\n"].location != NSNotFound) {
+        [textView resignFirstResponder];
+    }
+    return YES;
 }
 
 @end

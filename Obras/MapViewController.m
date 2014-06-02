@@ -25,7 +25,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.MyMap.showsUserLocation = YES;
     self.MyMap.delegate = self;
     self.MyMap.mapType = MKMapTypeStandard;
@@ -89,8 +88,13 @@
     region.center = location;
     self.userLocation = aUserLocation;
     [aMapView setRegion: region animated: YES];
-    [DatabaseUtilities getObrasForUserLatitude: aUserLocation.location.coordinate.latitude
-                                 userLongitude: aUserLocation.location.coordinate.longitude
+    
+    NSArray *existingpoints = self.MyMap.annotations;
+    if ([existingpoints count]) {
+        [self.MyMap removeAnnotations: existingpoints];
+    }
+    [DatabaseUtilities getObrasForUserLatitude: self.userLocation.location.coordinate.latitude
+                                 userLongitude: self.userLocation.location.coordinate.longitude
                            withCompletionBlock: ^void(NSArray *constructionsArray) {
                                self.constructions = [constructionsArray mutableCopy];
                                for (Obra *ob in self.constructions) {
@@ -101,7 +105,7 @@
                                                                                                            title: ob.titulo
                                                                                                         subTitle: ob.descricao];
                                    [self.MyMap addAnnotation: annotation];
-                                   MKCircle *circle = [MKCircle circleWithCenterCoordinate: location radius: 30];
+                                   MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
                                    [self.MyMap addOverlay: circle];
                                }
                            }];

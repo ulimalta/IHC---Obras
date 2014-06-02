@@ -118,7 +118,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
     [query whereKey:@"obra" equalTo:pfobra];
-    //[query includeKey:@"photo"];
+    [query includeKey:@"photo"];
     [query setLimit:1];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if(objects)

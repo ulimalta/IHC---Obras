@@ -7,7 +7,7 @@
 //
 
 #import "DatabaseUtilities.h"
-
+#define MAX_PHOTO 5
 
 @implementation DatabaseUtilities
 
@@ -63,6 +63,7 @@
     PFGeoPoint *pfgeoPoint = [PFGeoPoint geoPointWithLatitude:obra.lat longitude:obra.longi];
     newObra[@"location"] = pfgeoPoint;
     //newObra[@"comentarios"] = obra.comentarios;
+    newObra[@"numberOfPhotos"] = [NSNumber numberWithInt:0];
     newObra[@"numeroDislikes"] = [NSNumber numberWithInt:obra.numeroDislikes];
     newObra[@"numeroLikes"] = [NSNumber numberWithInt:obra.numeroLikes];
     
@@ -128,6 +129,31 @@
         
     }];
     
+    
+    
+}
+
++ (void) uploadPhoto:(UIImage*)photo toObra:(Obra*)obra
+{
+    NSData* data = UIImageJPEGRepresentation(photo, 0.5f);
+    PFFile *imageFile = [PFFile fileWithName:@"Image.jpg" data:data];
+    PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
+    int numberOfPhotos = [pfobra[@"numberOfPhotos"] intValue];
+    if( numberOfPhotos< MAX_PHOTO)
+    {
+        NSString *camp = [NSString stringWithFormat:@"photo%d",numberOfPhotos];
+        numberOfPhotos ++;
+        pfobra[camp] = imageFile;
+        pfobra[@"numberOfPhotos"] = [NSNumber numberWithInt:numberOfPhotos];
+    }
+    [pfobra saveInBackground];
+    
+
+    
+}
+
++ (void) getAllPhotosFromObra:(Obra *)obra withCompletionBlock:(void (^) (NSArray* )) completionBlock
+{
     
     
 }

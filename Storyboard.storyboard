@@ -73,11 +73,12 @@
                         <outlet property="logInOutButton" destination="3ln-hd-1b8" id="PnE-O9-fk7"/>
                         <outlet property="mainTableView" destination="zSO-6d-92a" id="AUR-Ya-hOB"/>
                         <segue destination="RbR-yh-Kxn" kind="modal" identifier="mapSegue" id="BQr-lI-gjl"/>
+                        <segue destination="OfF-u4-QCG" kind="modal" identifier="directDetailSegue" id="6ay-Yz-zPW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P46-Me-Rnl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1242" y="-30"/>
+            <point key="canvasLocation" x="1241" y="-22"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="heh-Oa-jEZ">
@@ -525,4 +526,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="6ay-Yz-zPW"/>
+    </inferredMetricsTieBreakers>
 </document>

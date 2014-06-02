@@ -299,6 +299,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     [[self.construction pictures] addObject: chosenImage];
+    [DatabaseUtilities uploadPhoto: chosenImage toObra: self.construction];
     if ([[self.construction pictures] count]) {
         self.currentPicture = 0;
         self.Picture.image = [self.construction.pictures objectAtIndex: 0];

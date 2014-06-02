@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
+#import "Obra.h"
+#import "DatabaseUtilities.h"
+#import "DetailViewController.h"
+
 @interface MainViewController : UIViewController <PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate>
 
 @end

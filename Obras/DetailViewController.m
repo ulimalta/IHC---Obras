@@ -107,7 +107,6 @@
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
     [DatabaseUtilities getAllPicturesFromObra: self.construction withCompletionBlock:^void(NSArray *pArray) {
         self.construction.pictures = [pArray mutableCopy];
-        NSLog(@"eeee");
         if ([[self.construction pictures] count]) {
             self.currentPicture = 0;
             self.Picture.image = [self.construction.pictures objectAtIndex: 0];

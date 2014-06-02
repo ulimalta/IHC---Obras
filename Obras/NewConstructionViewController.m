@@ -142,6 +142,13 @@
     self.MyScrollView.contentInset = UIEdgeInsetsZero;
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    CGRect screenSize = [[UIScreen mainScreen] bounds];
+    CGPoint scrollPoint = CGPointMake( 0.0, screenSize.size.height/80);
+    [self.MyScrollView setContentOffset: scrollPoint animated: YES];
+}
+
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
     if (self.descriptionTextView.isFirstResponder) {

@@ -54,26 +54,27 @@
     
     
     
-    Obra* ob  = [[Obra alloc]init];
-    ob.titulo = @"ihc eh nota 10";
-    ob.descricao = @"bem amigos, estamos aqui para falar pouca falacia e muita acao";
-    ob.lat = -44.99922;
-    ob.longi = 23.4234234;
-    ob.numeroDislikes = 1;
-    ob.numeroLikes = 4;
-    Usuario* usra = [[Usuario alloc]init];
-    usra.userName = @"willian bonner";
-    ob.usuario = usra;
-    Comentario* cm1 = [[Comentario alloc]init];
-    cm1.comment  = @"eu sou um comentarista";
-    cm1.user = usra;
-    Comentario* cm2 = [[Comentario alloc]init];
-    cm2.comment  = @"eu sou um piadista";
-    cm2.user = usra;
-    [ob.comentarios addObject:cm1];
-    [ob.comentarios addObject:cm2];
-    [DatabaseUtilities uploadObra:ob];
-
+//    Obra* ob  = [[Obra alloc]init];
+//    ob.titulo = @"ihc eh nota 10";
+//    ob.descricao = @"bem amigos, estamos aqui para falar pouca falacia e muita acao";
+//    ob.lat = -44.99922;
+//    ob.longi = 23.4234234;
+//    ob.numeroDislikes = 1;
+//    ob.numeroLikes = 4;
+//    Usuario* usra = [[Usuario alloc]init];
+//    usra.userName = [DatabaseUtilities getCurrentUser].userName;
+//    usra.userID = [DatabaseUtilities getCurrentUser].userID;
+//    ob.usuario = usra;
+//    Comentario* cm1 = [[Comentario alloc]init];
+//    cm1.comment  = @"eu sou um comentarista";
+//    cm1.user = usra;
+//    Comentario* cm2 = [[Comentario alloc]init];
+//    cm2.comment  = @"eu sou um piadista";
+//    cm2.user = usra;
+//    [ob.comentarios addObject:cm1];
+//    [ob.comentarios addObject:cm2];
+//    [DatabaseUtilities uploadObra:ob];
+//
     
     
     

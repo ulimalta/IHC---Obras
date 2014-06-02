@@ -91,12 +91,6 @@
     [photoObj saveInBackground];
 }
 
-+ (void) getAllPhotosFromObra:(Obra *)obra withCompletionBlock:(void (^) (NSArray* )) completionBlock
-{
-    
-    
-}
-
 + (void) updateObraLikesAndDislikes:(Obra *)obra
 {
     PFQuery* postQuery = [PFQuery queryWithClassName:@"Obra"];

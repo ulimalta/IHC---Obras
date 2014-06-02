@@ -44,7 +44,7 @@
     self.Picture.clipsToBounds = YES;
     if ([[self.construction pictures] count]) {
         self.currentPicture = 0;
-        self.Picture.image = [self.construction.pictures objectAtIndex: 0];        
+        self.Picture.image = [self.construction.pictures objectAtIndex: 0];
     }
     else {
         self.currentPicture = -1;
@@ -105,6 +105,17 @@
         self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
     }    
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+    [DatabaseUtilities getAllPicturesFromObra: self.construction withCompletionBlock:^void(NSArray *pArray) {
+        self.construction.pictures = [pArray mutableCopy];
+        NSLog(@"eeee");
+        if ([[self.construction pictures] count]) {
+            self.currentPicture = 0;
+            self.Picture.image = [self.construction.pictures objectAtIndex: 0];
+        }
+        else {
+            self.currentPicture = -1;
+        }
+    }];
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -298,8 +309,10 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    [[self.construction pictures] addObject: chosenImage];
-    [DatabaseUtilities uploadPhoto: chosenImage toObra: self.construction];
+    if (!self.construction.pictures || ![self.construction.pictures count]) {
+        self.construction.pictures = [[NSMutableArray alloc] init];
+    }
+    [[self.construction pictures] insertObject: chosenImage atIndex: 0];
     if ([[self.construction pictures] count]) {
         self.currentPicture = 0;
         self.Picture.image = [self.construction.pictures objectAtIndex: 0];
@@ -307,6 +320,7 @@
     else {
         self.currentPicture = -1;
     }
+    [DatabaseUtilities uploadPhoto: chosenImage toObra: self.construction];
     [picker dismissViewControllerAnimated: YES completion: NULL];
 }
 

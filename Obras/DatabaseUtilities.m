@@ -101,6 +101,32 @@
     }];
 }
 
++ (void) getAllPicturesFromObra:(Obra *)obra withCompletionBlock:(void (^) (NSArray * )) completionBlock
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
+    PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
+    [query whereKey:@"obra" equalTo:pfobra];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if([objects count])
+        {
+            NSMutableArray *myPhotos = [[NSMutableArray alloc]init];
+            for(int i = 0; i < [objects count] ; i++)
+            {
+                PFFile *myFile  = objects[i][@"photo"];
+                [myFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+                    [myPhotos addObject:[UIImage imageWithData:data]];
+                }];
+                NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
+                [operation addExecutionBlock:^{
+                    completionBlock(myPhotos);
+                    
+                }];
+                [[NSOperationQueue mainQueue] addOperation:operation];
+            }
+        }
+    }];
+}
+
 + (void) getOneAndOnlyOnePictureFromObra:(Obra *)obra withCompletionBlock:(void (^) (UIImage* )) completionBlock
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];

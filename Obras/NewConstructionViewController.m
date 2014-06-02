@@ -145,9 +145,11 @@
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey: UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    [self.MyScrollView setContentOffset: CGPointMake(0, self.descriptionTextView.center.y-kbSize.height) animated: YES];
+    if (self.descriptionTextView.isFirstResponder) {
+        NSDictionary* info = [aNotification userInfo];
+        CGSize kbSize = [[info objectForKey: UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+        [self.MyScrollView setContentOffset: CGPointMake(0, self.descriptionTextView.center.y-kbSize.height) animated: YES];
+    }
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)aNotification

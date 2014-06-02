@@ -68,6 +68,11 @@
         DetailViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
         [nextController setConstruction: [self.constructions objectAtIndex: self.constNumber]];
     }
+    else if ([[segue identifier] isEqualToString: @"newConstructionSegue"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        NewConstructionViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
+        [nextController setUserLocation: self.userLocation];
+    }
 }
 
 #pragma mark - MKMapViewDelegate
@@ -100,7 +105,6 @@
                                    [self.MyMap addOverlay: circle];
                                }
                            }];
-
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation

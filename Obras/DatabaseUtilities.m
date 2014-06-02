@@ -71,25 +71,18 @@
 
 + (void) updateCommentsInObra:(Obra*)obra
 {
-    PFQuery* obraQuery = [PFQuery queryWithClassName:@"Obra"];
+    PFQuery* obraQuery = [PFQuery queryWithClassName: @"Obra"];
     [obraQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
         object[@"comentarios"] = [obra.comentarios copy];
         [object saveInBackground];
         
     }];
-
-    
-    
 }
 
-
-
-
-
-+ (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock
++ (void) getObrasForUserLatitude:(double)userLatitude
+                   userLongitude:(double)userLongitude
+             withCompletionBlock:(void (^) (NSArray* )) completionBlock
 {
-    
-    
     CGFloat kilometers = 1000;
     
     PFQuery *query = [PFQuery queryWithClassName:@"Obra"];
@@ -124,11 +117,6 @@
     }];
 }
 
-
-
-
-
-
 + (Usuario *) getCurrentUser
 {
     PFUser *pfuser = [PFUser currentUser];
@@ -137,7 +125,6 @@
     currentUser.userID = pfuser.objectId;
     return currentUser;
 }
-
 
 //
 //+ (void) uploadPost:(Obra *)obra

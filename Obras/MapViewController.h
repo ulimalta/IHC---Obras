@@ -17,6 +17,7 @@
 #import "MapViewAnnotation.h"
 #import "DatabaseUtilities.h"
 #import "DetailViewController.h"
+#import "NewConstructionViewController.h"
 
 @interface MapViewController : UIViewController
 

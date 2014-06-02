@@ -35,11 +35,9 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
+    [super viewDidLoad];    
     UIFont *textFont = [UIFont fontWithName: @"Chalkduster" size: 17];
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
-    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
     titleLabel.font = textFont;
     titleLabel.textColor = textColor;
@@ -105,8 +103,7 @@
         
     }
     else {
-        NSLog(@"vadfasdfa");
-        PFLogInViewController * login = [[PFLogInViewController alloc]init];
+        PFLogInViewController *login = [[PFLogInViewController alloc]init];
         login.delegate = self;
         login.signUpController.delegate = self;
         [self presentViewController: login animated: YES completion: NULL];

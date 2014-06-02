@@ -14,7 +14,9 @@
 @property (weak, nonatomic) IBOutlet MKMapView *MyMap;
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 
-@property (strong, nonatomic) MKUserLocation* userLocation;
+@property (strong, nonatomic) MKUserLocation *userLocation;
+@property (nonatomic, strong) NSMutableArray *constructions;
+@property (nonatomic) int constNumber;
 
 @end
 
@@ -61,12 +63,10 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Pegar objeto certo
-    Obra *o = [[DatabaseUtilities getObras] objectAtIndex: 0];
     if ([[segue identifier] isEqualToString: @"detailSegue"]) {
         UINavigationController *navigationController = segue.destinationViewController;
         DetailViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
-        [nextController setConstruction: o];
+        [nextController setConstruction: [self.constructions objectAtIndex: self.constNumber]];
     }
 }
 
@@ -84,13 +84,22 @@
     region.center = location;
     self.userLocation = aUserLocation;
     [aMapView setRegion: region animated: YES];
-    
-    // Teste
-    
-    MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: location title: @"Teste" subTitle: @"Meu teste"];
-    [self.MyMap addAnnotation: annotation];
-    MKCircle *circle = [MKCircle circleWithCenterCoordinate: location radius: 40];
-    [self.MyMap addOverlay: circle];
+    [DatabaseUtilities getObrasForUserLatitude: aUserLocation.location.coordinate.latitude
+                                 userLongitude: aUserLocation.location.coordinate.longitude
+                           withCompletionBlock: ^void(NSArray *constructionsArray) {
+                               self.constructions = [constructionsArray mutableCopy];
+                               for (Obra *ob in self.constructions) {
+                                   CLLocationCoordinate2D myLocation;
+                                   myLocation.latitude = ob.lat;
+                                   myLocation.longitude = ob.longi;
+                                   MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
+                                                                                                           title: ob.titulo
+                                                                                                        subTitle: ob.descricao];
+                                   [self.MyMap addAnnotation: annotation];
+                                   MKCircle *circle = [MKCircle circleWithCenterCoordinate: location radius: 30];
+                                   [self.MyMap addOverlay: circle];
+                               }
+                           }];
 
 }
 
@@ -131,7 +140,18 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    [self performSegueWithIdentifier: @"detailSegue" sender: self];
+    MapViewAnnotation *annotation = (MapViewAnnotation*)view;
+    for (int i = 0; i < [self.constructions count]; i++) {
+        if ([[self.constructions objectAtIndex: i] lat] == annotation.coordinate.latitude) {
+            if ([[self.constructions objectAtIndex: i] longi] == annotation.coordinate.longitude) {
+                self.constNumber = i;
+                break;
+            }
+        }
+    }
+    if (self.constNumber >= 0) {
+        [self performSegueWithIdentifier: @"detailSegue" sender: self];
+    }
 }
 
 @end

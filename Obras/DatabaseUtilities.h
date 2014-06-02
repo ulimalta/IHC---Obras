@@ -17,7 +17,7 @@
 
 //+ (NSArray* ) getObras;
 
-+ (void) getObrasForUserLatitude:(float)userLatitude userLongitude:(float)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock;
++ (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock;
 
 + (Usuario *) getCurrentUser;
 

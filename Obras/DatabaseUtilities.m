@@ -76,7 +76,7 @@
     myComment[@"comment"] = comentario.comment;
     myComment[@"usuario"] = [PFObject objectWithoutDataWithClassName:@"_User" objectId:comentario.user.userID];
     myComment[@"obra"] = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
-    
+    myComment[@"PostDate"] = comentario.postDate;
     NSLog(@"passei por aqui");
     
     [myComment  saveInBackground];
@@ -100,7 +100,7 @@
         {
             Comentario* commentObj = [[Comentario alloc]init];
             
-            
+            commentObj.postDate = parseObj[@"PostDate"];
             commentObj.comment = parseObj[@"comment"];
             
             //user info

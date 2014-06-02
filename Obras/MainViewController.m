@@ -7,9 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "Obra.h"
-#import "DatabaseUtilities.h"
-
 
 @interface MainViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -20,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *mainTableView;
 
 @property (nonatomic, strong) NSMutableArray *cArray;
+@property (nonatomic) NSInteger constNumber;
 
 @end
 
@@ -33,6 +31,19 @@
     else {
         self.logInOutButton.title = @"Log Out";
     }
+    [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
+        self.cArray = [constructionsArray mutableCopy];
+        for (Obra *ob in self.cArray) {
+            [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                ob.pictures = [[NSMutableArray alloc] init];
+                if (img) {
+                    [ob.pictures addObject: img];
+                    [self.mainTableView reloadData];
+                }
+            }];
+        }
+        [self.mainTableView reloadData];
+    }];
 }
 
 - (void)viewDidLoad
@@ -71,8 +82,30 @@
     }];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString: @"directDetailSegue"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        DetailViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
+        [nextController setConstruction: [self.cArray objectAtIndex: self.constNumber]];
+    }
+}
+
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    [refreshControl endRefreshing];
+    [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
+        self.cArray = [constructionsArray mutableCopy];
+        for (Obra *ob in self.cArray) {
+            [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                ob.pictures = [[NSMutableArray alloc] init];
+                if (img) {
+                    [ob.pictures addObject: img];
+                    [self.mainTableView reloadData];
+                }
+            }];
+        }
+        [self.mainTableView reloadData];
+        [refreshControl endRefreshing];
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -181,14 +214,23 @@
     cell.textLabel.font = textFont;
     cell.textLabel.text = ob.titulo;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     if ([ob.pictures count]) {
         cell.imageView.image = [ob.pictures objectAtIndex: 0];
     }
     else {
         cell.imageView.image = [UIImage imageNamed: @"Obras.jpg"];
     }
+    cell.imageView.frame = CGRectMake(cell.imageView.frame.origin.x, cell.imageView.frame.origin.y, 60, 60);
     return cell;
+}
+
+#pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.constNumber = [indexPath row];
+    [self performSegueWithIdentifier: @"directDetailSegue" sender: self];
 }
 
 @end

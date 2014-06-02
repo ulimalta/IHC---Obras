@@ -20,7 +20,6 @@
     newObra[@"location"] = pfgeoPoint;
     newObra[@"numeroDislikes"] = [NSNumber numberWithInt:obra.numeroDislikes];
     newObra[@"numeroLikes"] = [NSNumber numberWithInt:obra.numeroLikes];
-    
     [newObra saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         for(UIImage* myimg in obra.pictures)
         {
@@ -37,7 +36,6 @@
     myComment[@"usuario"] = [PFObject objectWithoutDataWithClassName:@"_User" objectId:comentario.user.userID];
     myComment[@"obra"] = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
     myComment[@"PostDate"] = comentario.postDate;
-    NSLog(@"passei por aqui");
     [myComment  saveInBackground];
 }
 
@@ -73,7 +71,6 @@
             [commentsArray addObject:commentObj];
             
         }
-        
         NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
         [operation addExecutionBlock:^{
             completionBlock(commentsArray);
@@ -106,19 +103,15 @@
     [postQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
         object[@"numeroLikes"] = [NSNumber numberWithInteger:obra.numeroLikes];
         object[@"numeroDislikes"] = [NSNumber numberWithInteger:obra.numeroDislikes];
-       
         [object saveInBackground];
-        
     }];
 }
-
 
 + (void) getOneAndOnlyOnePictureFromObra:(Obra *)obra withCompletionBlock:(void (^) (UIImage* )) completionBlock
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
     [query whereKey:@"obra" equalTo:pfobra];
-    //[query includeKey:@"photo"];
     [query setLimit:1];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if([objects count])
@@ -180,7 +173,6 @@
         }
     }];
 }
-
 
 + (void) getObrasMostRecentWithCompletionBlock:(void (^) (NSArray* )) completionBlock
 {

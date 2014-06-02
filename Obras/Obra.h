@@ -15,8 +15,8 @@
 
 @property (nonatomic,strong) NSString *obraId;
 @property (nonatomic, strong) NSString *titulo;
-@property (nonatomic) float  latitude;
-@property (nonatomic) float  longitude;
+@property (nonatomic) double  lat;
+@property (nonatomic) double  longi;
 @property (nonatomic, strong) NSMutableArray *comentarios;
 @property (nonatomic, strong) Usuario *usuario;
 @property (nonatomic, strong) NSMutableArray *pictures;

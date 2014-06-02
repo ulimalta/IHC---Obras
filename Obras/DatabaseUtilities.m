@@ -84,16 +84,13 @@
 
 + (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock
 {
-    
-    
-    CGFloat kilometers = 10;
-    
+    CGFloat kilometers = 1000;
     PFQuery *query = [PFQuery queryWithClassName:@"Obra"];
     [query setLimit:1000];
     [query whereKey:@"location"
-       nearGeoPoint:[PFGeoPoint geoPointWithLatitude:userLatitude
-                                           longitude:userLongitude]
-   withinKilometers:kilometers];
+       nearGeoPoint:[PFGeoPoint geoPointWithLatitude: userLatitude
+                                           longitude: userLongitude]
+    withinKilometers:kilometers];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSMutableArray *obrasArray = [[NSMutableArray alloc]init];
@@ -106,22 +103,15 @@
                 minhaObra.longitude = ((PFGeoPoint*)object[@"location"]).longitude;
                 minhaObra.comentarios = object[@"comentarios"];
                 [obrasArray addObject:minhaObra];
-                
                 NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
                 [operation addExecutionBlock:^{
                     completionBlock(obrasArray);
                     
                 }];
-                
-                [[NSOperationQueue mainQueue] addOperation:operation];
-                
-                
-                
-                
+                [[NSOperationQueue mainQueue] addOperation:operation];                
             }
         }
     }];
-    
 }
 
 

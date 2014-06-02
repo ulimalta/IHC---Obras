@@ -90,6 +90,7 @@
     [self.CommentsTableView addSubview: refreshControl];
     self.authorLabel.text = [NSString stringWithFormat: @"Autor do post: %@", self.construction.usuario.userName];
     self.authorLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+    self.authorLabel.adjustsFontSizeToFitWidth = YES;
     self.view.backgroundColor = [UIColor colorWithRed: 200.0/255.0 green: 200.0/255.0 blue: 200.0/255.0 alpha: 1.0];
     self.totalVotes.text = [NSString stringWithFormat: @"Total votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];

@@ -48,6 +48,14 @@
 }
 
 - (IBAction)newConstructionAction:(id)sender {
+    if (![PFUser currentUser]) {
+        [[[UIAlertView alloc] initWithTitle: @"Log In."
+                                    message: @"Você precisa estar logado para adicionar uma nova obra!"
+                                   delegate: nil
+                          cancelButtonTitle: @"ok"
+                          otherButtonTitles: nil] show];
+        return;
+    }
     [self performSegueWithIdentifier: @"newConstructionSegue" sender: self];
 }
 

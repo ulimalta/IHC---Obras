@@ -202,7 +202,17 @@
 }
 
 - (IBAction)okButtonAction:(id)sender {
-    
+    if (self.novaObra.descricao && ![self.novaObra.descricao isEqualToString: @""] && self.novaObra.titulo && ![self.novaObra.titulo isEqualToString: @""]) {
+        [DatabaseUtilities uploadObra: self.novaObra];
+        [self dismissViewControllerAnimated: YES completion: nil];
+    }
+    else {
+        [[[UIAlertView alloc] initWithTitle: @"Preencha todos os campos."
+                                    message: @"Os campos de título e descrição são obrigatórios."
+                                   delegate: self
+                          cancelButtonTitle: @"OK"
+                          otherButtonTitles: nil] show];
+    }
 }
 
 - (void) setUserLocation:(MKUserLocation *)userLocation

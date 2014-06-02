@@ -100,8 +100,10 @@
     self.view.backgroundColor = [UIColor colorWithRed: 200.0/255.0 green: 200.0/255.0 blue: 200.0/255.0 alpha: 1.0];
     self.totalVotes.text = [NSString stringWithFormat: @"Total votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
     int total = self.construction.numeroLikes+self.construction.numeroDislikes;
-    self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
-    self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
+    if (total) {
+        self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
+        self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
+    }    
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
 }
 
@@ -184,6 +186,9 @@
     self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
     self.totalVotes.text = [NSString stringWithFormat: @"Total votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+    [DatabaseUtilities updateObraLikesAndDislikes: self.construction];
+    self.likeButton.enabled = NO;
+    self.dislikeButton.enabled = NO;
 }
 
 - (IBAction)dislikeAction:(id)sender {
@@ -193,6 +198,9 @@
     self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
     self.totalVotes.text = [NSString stringWithFormat: @"Toatal votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+    [DatabaseUtilities updateObraLikesAndDislikes: self.construction];
+    self.dislikeButton.enabled = NO;
+    self.likeButton.enabled = NO;
 }
 
 #pragma mark UITableViewDataSource

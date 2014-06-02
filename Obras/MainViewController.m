@@ -215,13 +215,22 @@
     cell.textLabel.text = ob.titulo;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    UIImageView *img = [[UIImageView alloc] init];
+    img.frame = CGRectMake(0, 0, 60, 60);
+    
     if ([ob.pictures count]) {
-        cell.imageView.image = [ob.pictures objectAtIndex: 0];
+        img.image = [ob.pictures objectAtIndex: 0];
     }
     else {
-        cell.imageView.image = [UIImage imageNamed: @"Obras.jpg"];
+        img.image = [UIImage imageNamed: @"Obras.jpg"];
     }
-    cell.imageView.frame = CGRectMake(cell.imageView.frame.origin.x, cell.imageView.frame.origin.y, 60, 60);
+    cell.imageView.image = img.image;
+    CGSize itemSize = CGSizeMake(60, 60);
+    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+    CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
+    [cell.imageView.image drawInRect: imageRect];
+    cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     return cell;
 }
 

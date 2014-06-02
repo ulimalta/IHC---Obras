@@ -18,6 +18,7 @@
         self.usuario = [[Usuario alloc] init];
         self.numeroDislikes = 0;
         self.numeroLikes = 0;
+        
     }
     return self;
 }

@@ -10,7 +10,7 @@
 
 @interface CommentCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UITextView *DescriptionTextView;
 @property (weak, nonatomic) IBOutlet UILabel *InfoLabel;
+@property (weak, nonatomic) IBOutlet UILabel *CommentTextLabel;
 
 @end

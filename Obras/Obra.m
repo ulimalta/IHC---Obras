@@ -17,6 +17,8 @@
         self.pictures = [[NSMutableArray alloc] init];
         self.comentarios = [[NSMutableArray alloc] init];
         self.usuario = [[Usuario alloc] init];
+        self.numeroDislikes = 0;
+        self.numeroLikes = 0;
     }
     return self;
 }

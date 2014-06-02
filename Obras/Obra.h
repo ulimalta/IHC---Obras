@@ -20,5 +20,7 @@
 @property (nonatomic, strong) Usuario *usuario;
 @property (nonatomic, strong) NSMutableArray *pictures;
 @property (nonatomic, strong) NSString *descricao;
+@property (nonatomic) NSInteger numeroLikes;
+@property (nonatomic) NSInteger numeroDislikes;
 
 @end

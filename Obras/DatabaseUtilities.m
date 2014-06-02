@@ -11,9 +11,6 @@
 
 @implementation DatabaseUtilities
 
-
-
-
 + (NSArray* ) getObras
 {
     
@@ -26,11 +23,14 @@
     [[o1 pictures] addObject: img];
     img = [UIImage imageNamed: @"Obras.jpg"];
     [[o1 pictures] addObject: img];
+    Usuario *u = [[Usuario alloc] init];
+    u.userName = @"ssssuuuuu";
+    o1.usuario = u;
     
     Comentario *c1 = [[Comentario alloc] init];
     c1.comment = @"qwqwqwqwqwqwqwq";
     Comentario *c2 = [[Comentario alloc] init];
-    c2.comment = @"qwqwqwqwqwqwqwqmsdfbjskdhfkjsadhkjfhasdfhasdjfhadsjfhksahfjk";
+    c2.comment = @"qwqwqwqwqwqwqwqmsdfbjskdhfkjsanvdmnfgndjfgdjkhfjgdkfgkdhfkgdkjfhgdfkjgkjdfhgjfhdfjgfkjdfhgkjdfhgdkfjhgkjdfhkgdkjfgjkdhkfhgdkjfhgjfdhkgfdjkgfhjdfhgdkj464655555555555555553dhkjfhasdfhasdjfhadsjfhksahfjk";
     Comentario *c3 = [[Comentario alloc] init];
     c3.comment = @"qwqwqwqwqwqwqwqkhjsdgfhksadhkfgasdjfghjasdgfhj0000";
     [[c1 user] setUserName:@"asdfsdfsdasdfsfs222s"];

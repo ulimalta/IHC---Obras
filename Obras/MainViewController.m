@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *MapButton;
 @property (weak, nonatomic) IBOutlet UITabBar *MyTabBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logInOutButton;
+@property (weak, nonatomic) IBOutlet UITableView *mainTableView;
 
 @end
 
@@ -43,8 +44,16 @@
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = @"OBrasil";
-    
     [self.TitleNavigationItem setTitleView: titleLabel];
+    self.mainTableView.separatorInset = UIEdgeInsetsZero;
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget: self action: @selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.mainTableView addSubview: refreshControl];
+    [self.MyTabBar setSelectedItem: [self.MyTabBar.items objectAtIndex: 0]];
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning

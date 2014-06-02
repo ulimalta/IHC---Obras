@@ -53,27 +53,90 @@
 //    
 //}
 
-+ (void) uploadObra:(Obra *)obra forUserLatitude:(double)userLatitude userLongitude:(double)userLongitude
++ (void) uploadObra:(Obra *)obra
 {
     PFObject *newObra = [PFObject objectWithClassName:@"Obra"];
+    //newObra[@"usuario"] = [PFUser currentUser];
+    newObra[@"usuario"] =  [PFObject objectWithoutDataWithClassName:@"_User" objectId:obra.usuario.userID];
     newObra[@"descricao"] = obra.descricao;
     newObra[@"titulo"] = obra.titulo;
-    PFGeoPoint *pfgeoPoint = [PFGeoPoint geoPointWithLatitude:userLatitude longitude:userLongitude];
+    PFGeoPoint *pfgeoPoint = [PFGeoPoint geoPointWithLatitude:obra.lat longitude:obra.longi];
     newObra[@"location"] = pfgeoPoint;
-    newObra[@"comentarios"] = obra.comentarios;
+    //newObra[@"comentarios"] = obra.comentarios;
+    newObra[@"numeroDislikes"] = [NSNumber numberWithInt:obra.numeroDislikes];
+    newObra[@"numeroLikes"] = [NSNumber numberWithInt:obra.numeroLikes];
+    
     [newObra saveInBackground];
     
 }
 
-+ (void) updateCommentsInObra:(Obra*)obra
++ (void) uploadComment:(Comentario* )comentario InObra:(Obra*)obra
 {
-    PFQuery* obraQuery = [PFQuery queryWithClassName: @"Obra"];
-    [obraQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
-        object[@"comentarios"] = obra.comentarios;
-        [object saveInBackground];
+    PFObject *myComment = [PFObject objectWithClassName:@"Comentario"];
+    myComment[@"comment"] = comentario.comment;
+    myComment[@"usuario"] = [PFObject objectWithoutDataWithClassName:@"_User" objectId:comentario.user.userID];
+    myComment[@"obra"] = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
+    
+    NSLog(@"passei por aqui");
+    
+    [myComment  saveInBackground];
+
+        
+    
+}
+
++ (void) getAllCommentsFromObra:(Obra*)obra withCompletionBlock:(void (^) (NSArray* )) completionBlock
+{
+
+    NSMutableArray* commentsArray  = [[NSMutableArray alloc]init];
+    PFQuery* commentsQuery = [PFQuery queryWithClassName:@"Commentario"];
+    [commentsQuery addDescendingOrder:@"createdAt"];
+    [commentsQuery whereKey:@"obra"
+                    equalTo:[PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId]];
+    commentsQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    [commentsQuery includeKey:@"usuario"];
+    [commentsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        for(PFObject* parseObj in objects)
+        {
+            Comentario* commentObj = [[Comentario alloc]init];
+            
+            
+            commentObj.comment = parseObj[@"comment"];
+            
+            //user info
+            
+            PFObject *parseUser = parseObj[@"usuario"];
+            Usuario* user = [[Usuario alloc]init];
+            user.userName = parseUser[@"username"];
+            user.userID = parseUser.objectId;
+          
+            
+            commentObj.user = user;
+            
+            
+            [commentsArray addObject:commentObj];
+            
+        }
+        
+        NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
+        [operation addExecutionBlock:^{
+            completionBlock(commentsArray);
+            
+        }];
+        [[NSOperationQueue mainQueue] addOperation:operation];
+        
         
     }];
+    
+    
+    
 }
+
+
+
+    
+    
+
 
 + (void) getObrasForUserLatitude:(double)userLatitude
                    userLongitude:(double)userLongitude
@@ -87,14 +150,22 @@
        nearGeoPoint:[PFGeoPoint geoPointWithLatitude: userLatitude
                                            longitude: userLongitude]
     withinKilometers:kilometers];
+    [query includeKey:@"usuario"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSMutableArray *obrasArray = [[NSMutableArray alloc]init];
             for (PFObject *object in objects) {
                 Obra * minhaObra = [[Obra alloc]init];
                 minhaObra.obraId = object.objectId;
-                minhaObra.comentarios =  object[@"comentarios"];
+                PFUser *pfObraUsuario = object[@"usuario"];
+                Usuario* obraUsuario = [[Usuario alloc]init];
+                obraUsuario.userID = pfObraUsuario.objectId;
+                obraUsuario.userName = pfObraUsuario.username;
+                minhaObra.usuario = obraUsuario;
+                
                 minhaObra.titulo = object[@"titulo"];
+                minhaObra.numeroDislikes = [object[@"numeroDislikes"] intValue];
+                minhaObra.numeroLikes = [object[@"numeroLikes"] intValue];
                 minhaObra.descricao = object[@"descricao"];
                 minhaObra.lat = ((PFGeoPoint*)object[@"location"]).latitude;
                 minhaObra.longi = ((PFGeoPoint*)object[@"location"]).longitude;

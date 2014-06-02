@@ -18,7 +18,10 @@
 //+ (NSArray* ) getObras;
 
 + (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock;
++ (void) uploadObra:(Obra *)obra;
++ (void) uploadComment:(Comentario* )comentario InObra:(Obra*)obra;
 
++ (void) getAllCommentsFromObra:(Obra*)obra withCompletionBlock:(void (^) (NSArray* )) completionBlock;
 + (Usuario *) getCurrentUser;
 
 @end

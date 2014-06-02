@@ -99,6 +99,9 @@
     self.authorLabel.adjustsFontSizeToFitWidth = YES;
     self.view.backgroundColor = [UIColor colorWithRed: 200.0/255.0 green: 200.0/255.0 blue: 200.0/255.0 alpha: 1.0];
     self.totalVotes.text = [NSString stringWithFormat: @"Total votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
+    int total = self.construction.numeroLikes+self.construction.numeroDislikes;
+    self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
+    self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
     self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
 }
 
@@ -106,8 +109,8 @@
     [DatabaseUtilities getAllCommentsFromObra: self.construction withCompletionBlock:^void(NSArray *cArray) {
         self.commentArray = [cArray mutableCopy];
         [self.CommentsTableView reloadData];
+        [refreshControl endRefreshing];
     }];
-    [refreshControl endRefreshing];
 }
 
 - (void)swipeHandlerLeft:(UISwipeGestureRecognizer*)gestureRecognizer

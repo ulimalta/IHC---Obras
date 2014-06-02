@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *totalVotes;
 
 @property (nonatomic) NSInteger currentPicture;
+@property (nonatomic, strong) NSMutableArray *commentArray;
 
 @end
 
@@ -33,6 +34,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.commentArray = [[NSMutableArray alloc] init];
+    [DatabaseUtilities getAllCommentsFromObra: self.construction withCompletionBlock:^void(NSArray *cArray) {
+        self.commentArray = [cArray mutableCopy];
+        [self.CommentsTableView reloadData];
+    }];
     self.Picture.userInteractionEnabled = YES;
     self.Picture.layer.cornerRadius = 5.0;
     self.Picture.clipsToBounds = YES;
@@ -97,6 +103,10 @@
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
+    [DatabaseUtilities getAllCommentsFromObra: self.construction withCompletionBlock:^void(NSArray *cArray) {
+        self.commentArray = [cArray mutableCopy];
+        [self.CommentsTableView reloadData];
+    }];
     [refreshControl endRefreshing];
 }
 
@@ -191,13 +201,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.construction comentarios] count];
+    return [self.commentArray count];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommentCell *cell = (CommentCell*)[tableView dequeueReusableCellWithIdentifier: @"commentCell"];
-    Comentario *comment = [[self.construction comentarios] objectAtIndex: [indexPath row]];
+    Comentario *comment = [self.commentArray objectAtIndex: [indexPath row]];
     UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
     cell.CommentTextLabel.font = textFont;
     CGSize maxSize = CGSizeMake(300.f, FLT_MAX);
@@ -229,7 +239,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Comentario *comment = [[self.construction comentarios] objectAtIndex: [indexPath row]];
+    Comentario *comment = [self.commentArray objectAtIndex: [indexPath row]];
     CGSize maxSize = CGSizeMake(300.f, FLT_MAX);
     CGRect labRect = [comment.comment boundingRectWithSize: maxSize
                                                    options: NSStringDrawingUsesLineFragmentOrigin
@@ -263,10 +273,12 @@
         Comentario *newComment = [[Comentario alloc] init];
         newComment.comment = [[alertView textFieldAtIndex: 0] text];
         newComment.user = [DatabaseUtilities getCurrentUser];
-        if (!self.construction.comentarios || ![[self.construction comentarios] count]) {
-            self.construction.comentarios = [[NSMutableArray alloc] init];
+        NSLog(@"asasa");
+        if (!self.commentArray || ![self.commentArray count]) {
+            self.commentArray = [[NSMutableArray alloc] init];
         }
-        [[self.construction comentarios] insertObject: newComment atIndex: 0];
+        [self.commentArray insertObject: newComment atIndex: 0];
+        [DatabaseUtilities uploadComment: newComment InObra: self.construction];
         [self.CommentsTableView reloadData];
     }
 }

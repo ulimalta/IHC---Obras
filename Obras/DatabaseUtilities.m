@@ -89,7 +89,7 @@
 {
 
     NSMutableArray* commentsArray  = [[NSMutableArray alloc]init];
-    PFQuery* commentsQuery = [PFQuery queryWithClassName:@"Commentario"];
+    PFQuery* commentsQuery = [PFQuery queryWithClassName:@"Comentario"];
     [commentsQuery addDescendingOrder:@"createdAt"];
     [commentsQuery whereKey:@"obra"
                     equalTo:[PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId]];

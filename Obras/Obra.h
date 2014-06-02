@@ -13,6 +13,7 @@
 
 @interface Obra : NSObject
 
+@property (nonatomic,strong) NSString *obraId;
 @property (nonatomic, strong) NSString *titulo;
 @property (nonatomic) float  latitude;
 @property (nonatomic) float  longitude;

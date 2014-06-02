@@ -53,8 +53,36 @@
 //    
 //}
 
++ (void) uploadObra:(Obra *)obra forUserLatitude:(double)userLatitude userLongitude:(double)userLongitude
+{
+    PFObject *newObra = [PFObject objectWithClassName:@"Obra"];
+    newObra[@"descricao"] = obra.descricao;
+    newObra[@"titulo"] = obra.titulo;
+    PFGeoPoint *pfgeoPoint = [PFGeoPoint geoPointWithLatitude:userLatitude longitude:userLongitude];
+    newObra[@"location"] = pfgeoPoint;
+    newObra[@"comentarios"] = obra.comentarios;
+    [newObra saveInBackground];
+    
+}
 
-+ (void) getObrasForUserLatitude:(float)userLatitude userLongitude:(float)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock
++ (void) updateCommentsInObra:(Obra*)obra
+{
+    PFQuery* obraQuery = [PFQuery queryWithClassName:@"Obra"];
+    [obraQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
+        object[@"comentarios"] = obra.comentarios;
+        [object saveInBackground];
+        
+    }];
+
+    
+    
+}
+
+
+
+
+
++ (void) getObrasForUserLatitude:(double)userLatitude userLongitude:(double)userLongitude withCompletionBlock:(void (^) (NSArray* )) completionBlock
 {
     
     
@@ -71,11 +99,12 @@
             NSMutableArray *obrasArray = [[NSMutableArray alloc]init];
             for (PFObject *object in objects) {
                 Obra * minhaObra = [[Obra alloc]init];
+                minhaObra.obraId = object.objectId;
                 minhaObra.titulo = object[@"titulo"];
                 minhaObra.descricao = object[@"descricao"];
                 minhaObra.latitude = ((PFGeoPoint*)object[@"location"]).latitude;
                 minhaObra.longitude = ((PFGeoPoint*)object[@"location"]).longitude;
-                
+                minhaObra.comentarios = object[@"comentarios"];
                 [obrasArray addObject:minhaObra];
                 
                 NSBlockOperation *operation  = [[NSBlockOperation alloc]init];

@@ -74,7 +74,6 @@
     self.novaObra.usuario = [DatabaseUtilities getCurrentUser];
     self.novaObra.numeroLikes = 0;
     self.novaObra.numeroDislikes = 0;
-    self.novaObra.comentarios = [[NSMutableArray alloc] init];
     self.novaObra.pictures = [[NSMutableArray alloc] init];
     self.novaObra.lat = self.userLocation.coordinate.latitude;
     self.novaObra.longi = self.userLocation.coordinate.longitude;

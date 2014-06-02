@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSString *titulo;
 @property (nonatomic) double  lat;
 @property (nonatomic) double  longi;
-@property (nonatomic, strong) NSMutableArray *comentarios;
 @property (nonatomic, strong) Usuario *usuario;
 @property (nonatomic, strong) NSMutableArray *pictures;
 @property (nonatomic, strong) NSString *descricao;

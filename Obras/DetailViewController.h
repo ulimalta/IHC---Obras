@@ -15,7 +15,7 @@
 #import "DatabaseUtilities.h"
 #import "CommentCell.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) Obra *construction;
 

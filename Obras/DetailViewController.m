@@ -157,7 +157,11 @@
 }
 
 - (IBAction)newPictureAction:(id)sender {
-    
+    [[[UIAlertView alloc] initWithTitle: @"Nova foto."
+                                message: @"Escolha uma foto da sua biblioteca ou tire uma nova foto."
+                               delegate: self
+                      cancelButtonTitle: @"Cancelar"
+                      otherButtonTitles: @"Biblioteca", @"Tirar foto", nil] show];
 }
 
 - (IBAction)likeAction:(id)sender {
@@ -241,13 +245,45 @@
     if (!buttonIndex) {
         return;
     }
-    if ([[alertView textFieldAtIndex: 0] text] && ![[[alertView textFieldAtIndex:0] text] isEqualToString: @""]) {
+    if ([[alertView message] isEqualToString: @"Escolha uma foto da sua biblioteca ou tire uma nova foto."] && buttonIndex == 1) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentViewController:picker animated: YES completion: NULL];
+    }
+    else if ([[alertView message] isEqualToString: @"Escolha uma foto da sua biblioteca ou tire uma nova foto."] && buttonIndex == 2) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated: YES completion: NULL];
+    }
+    else if ([[alertView textFieldAtIndex: 0] text] && ![[[alertView textFieldAtIndex:0] text] isEqualToString: @""]) {
         Comentario *newComment = [[Comentario alloc] init];
-        newComment.comment = [[alertView textFieldAtIndex:0] text];
+        newComment.comment = [[alertView textFieldAtIndex: 0] text];
         newComment.user = [DatabaseUtilities getCurrentUser];
+        if (!self.construction.comentarios || ![[self.construction comentarios] count]) {
+            self.construction.comentarios = [[NSMutableArray alloc] init];
+        }
         [[self.construction comentarios] insertObject: newComment atIndex: 0];
         [self.CommentsTableView reloadData];
     }
+}
+
+#pragma mark UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    [[self.construction pictures] addObject: chosenImage];
+    if ([[self.construction pictures] count]) {
+        self.currentPicture = 0;
+        self.Picture.image = [self.construction.pictures objectAtIndex: 0];
+    }
+    else {
+        self.currentPicture = -1;
+    }
+    [picker dismissViewControllerAnimated: YES completion: NULL];
 }
 
 @end

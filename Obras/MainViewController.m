@@ -49,7 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];    
-    UIFont *textFont = [UIFont fontWithName: @"Chalkduster" size: 17];
+    UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
     titleLabel.font = textFont;
@@ -58,6 +58,7 @@
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = @"OBrasil";
     [self.TitleNavigationItem setTitleView: titleLabel];
+    self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.separatorInset = UIEdgeInsetsZero;
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget: self action: @selector(refresh:) forControlEvents:UIControlEventValueChanged];
@@ -80,6 +81,12 @@
         }
         [self.mainTableView reloadData];
     }];
+    [self.logInOutButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
+    [self.MapButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
+    self.view.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
+    self.mainTableView.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
+    self.mainTableView.clipsToBounds = YES;
+    self.mainTableView.layer.cornerRadius = 5.0;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -229,8 +236,15 @@
     UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
     CGRect imageRect = CGRectMake(0.0, 0.0, itemSize.width, itemSize.height);
     [cell.imageView.image drawInRect: imageRect];
+    cell.imageView.clipsToBounds = YES;
+    cell.imageView.layer.cornerRadius = 5.0;
     cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    CALayer *layer = cell.layer;
+    layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    layer.borderWidth = 0.2f;
+    layer.cornerRadius = 20.0f;
+    cell.backgroundColor = [UIColor colorWithRed: 230.0/255.0 green: 230.0/255.0 blue: 230.0/255.0 alpha: 0.8];
     return cell;
 }
 

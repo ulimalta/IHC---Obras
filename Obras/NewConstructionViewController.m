@@ -20,8 +20,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *latitudeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *longitudeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-
-@property (nonatomic, strong) Obra *novaObra;
 @property (weak, nonatomic) IBOutlet UITextField *cityTextField;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextField *latitudeTextField;
@@ -29,7 +27,12 @@
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
 @property (weak, nonatomic) IBOutlet UIScrollView *MyScrollView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *okButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (weak, nonatomic) IBOutlet UILabel *backLabel;
+@property (weak, nonatomic) IBOutlet UILabel *mesageLabel;
 
+@property (nonatomic, strong) Obra *novaObra;
 @property(nonatomic) NSInteger currentPicture;
 
 @end
@@ -77,7 +80,7 @@
     self.novaObra.pictures = [[NSMutableArray alloc] init];
     self.novaObra.lat = self.userLocation.coordinate.latitude;
     self.novaObra.longi = self.userLocation.coordinate.longitude;
-    UIFont *textFont = [UIFont fontWithName: @"Chalkduster" size: 17];
+    UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
     self.authorLabel.text = [NSString stringWithFormat: @"Autor: %@", self.novaObra.usuario.userName];
     self.authorLabel.font = textFont;
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
@@ -88,6 +91,7 @@
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = @"Nova Obra";
     [self.TitleNavigationItem setTitleView: titleLabel];
+    textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
     self.cityLabel.adjustsFontSizeToFitWidth = YES;
     self.cityLabel.font = textFont;
     self.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -102,8 +106,11 @@
     self.titleTextField.font = textFont;
     self.titleTextField.delegate = self;
     self.latitudeTextField.userInteractionEnabled = NO;
+    self.latitudeTextField.backgroundColor = [UIColor colorWithRed: 230.0/255.0 green: 230.0/255.0 blue: 230.0/255.0 alpha: 0.8];
     self.longitudeTextField.userInteractionEnabled = NO;
+    self.longitudeTextField.backgroundColor = [UIColor colorWithRed: 230.0/255.0 green: 230.0/255.0 blue: 230.0/255.0 alpha: 0.8];
     self.cityTextField.userInteractionEnabled = NO;
+    self.cityTextField.backgroundColor = [UIColor colorWithRed: 230.0/255.0 green: 230.0/255.0 blue: 230.0/255.0 alpha: 0.8];
     CGFloat borderWidth = 1.0;
     self.descriptionTextView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.descriptionTextView.layer.borderWidth = borderWidth;
@@ -140,6 +147,9 @@
                                                object: nil];
     self.MyScrollView.contentOffset = CGPointZero;
     self.MyScrollView.contentInset = UIEdgeInsetsZero;
+    [self.okButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
+    [self.cancelButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
+    self.backLabel.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -186,6 +196,8 @@
 }
 
 - (void)dismissKeyboard {
+    self.novaObra.titulo = self.titleTextField.text;
+    self.novaObra.descricao = self.descriptionTextView.text;
     [self.titleTextField resignFirstResponder];
     [self.descriptionTextView resignFirstResponder];
 }
@@ -209,7 +221,7 @@
 }
 
 - (IBAction)okButtonAction:(id)sender {
-    if (self.novaObra.descricao && ![self.novaObra.descricao isEqualToString: @""] && self.novaObra.titulo && ![self.novaObra.titulo isEqualToString: @""]) {
+    if (self.novaObra.descricao && ![self.novaObra.descricao isEqualToString: @""] && self.novaObra.titulo && ![self.novaObra.titulo isEqualToString: @""] && ![self.novaObra.titulo isEqualToString: @"Descrição"]) {
         [DatabaseUtilities uploadObra: self.novaObra];
         [self dismissViewControllerAnimated: YES completion: nil];
     }
@@ -305,9 +317,11 @@
     if ([[self.novaObra pictures] count]) {
         self.currentPicture = 0;
         self.pictureImageView.image = [self.novaObra.pictures objectAtIndex: 0];
+        self.mesageLabel.hidden = YES;
     }
     else {
         self.currentPicture = -1;
+        self.mesageLabel.hidden = NO;
     }
     [picker dismissViewControllerAnimated: YES completion: NULL];
 }

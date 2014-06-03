@@ -22,7 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *dislikeButton;
 @property (weak, nonatomic) IBOutlet UILabel *likeP;
 @property (weak, nonatomic) IBOutlet UILabel *dislikeP;
-@property (weak, nonatomic) IBOutlet UILabel *totalVotes;
+@property (weak, nonatomic) IBOutlet UILabel *backLabel;
+@property (weak, nonatomic) IBOutlet UIButton *fowardButton;
+@property (weak, nonatomic) IBOutlet UIButton *previousButton;
 
 @property (nonatomic) NSInteger currentPicture;
 @property (nonatomic, strong) NSMutableArray *commentArray;
@@ -34,6 +36,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self.BackButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
+    [self.CommentButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
     self.commentArray = [[NSMutableArray alloc] init];
     [DatabaseUtilities getAllCommentsFromObra: self.construction withCompletionBlock:^void(NSArray *cArray) {
         self.commentArray = [cArray mutableCopy];
@@ -49,11 +54,12 @@
     else {
         self.currentPicture = -1;
     }
-    UIFont *textFont = [UIFont fontWithName: @"Chalkduster" size: 17];
+    UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
     titleLabel.font = textFont;
     titleLabel.textColor = textColor;
+    titleLabel.adjustsFontSizeToFitWidth = YES;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.backgroundColor = [UIColor clearColor];
     if (self.construction.titulo && ![self.construction.titulo isEqualToString: @""]) {
@@ -69,6 +75,7 @@
     self.descriptionTextView.layer.cornerRadius = 5.0;
     self.descriptionTextView.clipsToBounds = YES;
     self.descriptionTextView.editable = NO;
+    self.descriptionTextView.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
     self.descriptionTextView.backgroundColor = [UIColor whiteColor];
     if (self.construction.descricao && ![self.construction.descricao isEqualToString: @""]) {
         self.descriptionTextView.text = self.construction.descricao;
@@ -91,20 +98,19 @@
     self.CommentsTableView.dataSource = self;
     self.CommentsTableView.delegate = self;
     self.CommentsTableView.layer.cornerRadius = 5;
+    self.CommentsTableView.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget: self action: @selector(refresh:) forControlEvents: UIControlEventValueChanged];
     [self.CommentsTableView addSubview: refreshControl];
     self.authorLabel.text = [NSString stringWithFormat: @"Autor do post: %@", self.construction.usuario.userName];
     self.authorLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
     self.authorLabel.adjustsFontSizeToFitWidth = YES;
-    self.view.backgroundColor = [UIColor colorWithRed: 200.0/255.0 green: 200.0/255.0 blue: 200.0/255.0 alpha: 1.0];
-    self.totalVotes.text = [NSString stringWithFormat: @"Total votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
+    self.backLabel.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
     int total = self.construction.numeroLikes+self.construction.numeroDislikes;
     if (total) {
         self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
         self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
-    }    
-    self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
+    }
     [DatabaseUtilities getAllPicturesFromObra: self.construction withCompletionBlock:^void(NSArray *pArray) {
         self.construction.pictures = [pArray mutableCopy];
         if ([[self.construction pictures] count]) {
@@ -115,6 +121,28 @@
             self.currentPicture = -1;
         }
     }];
+    self.likeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    self.dislikeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    UIColor *color = self.likeButton.titleLabel.textColor;
+    self.likeButton.clipsToBounds = YES;
+    self.likeButton.layer.cornerRadius = 10.0;
+    self.likeButton.backgroundColor = color;
+    self.likeButton.titleLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    [self.likeButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
+    [self.likeButton setTitleColor: [UIColor lightGrayColor] forState: UIControlStateDisabled];
+    self.dislikeButton.clipsToBounds = YES;
+    self.dislikeButton.layer.cornerRadius = 10.0;
+    self.dislikeButton.backgroundColor = color;
+    [self.dislikeButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
+    [self.dislikeButton setTitleColor: [UIColor lightGrayColor] forState: UIControlStateDisabled];
+    self.dislikeButton.titleLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    self.addPhotoButton.clipsToBounds = YES;
+    self.addPhotoButton.layer.cornerRadius = 10.0;
+    self.addPhotoButton.backgroundColor = color;
+    [self.addPhotoButton setTitleColor: [UIColor whiteColor] forState: UIControlStateNormal];
+    self.addPhotoButton.titleLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    self.previousButton.titleLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
+    self.fowardButton.titleLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -123,6 +151,14 @@
         [self.CommentsTableView reloadData];
         [refreshControl endRefreshing];
     }];
+}
+
+- (IBAction)fowardButtonAction:(id)sender {
+    [self swipeHandlerLeft: nil];
+}
+
+- (IBAction)previousButtonAction:(id)sender {
+    [self swipeHandlerRight: nil];
 }
 
 - (void)swipeHandlerLeft:(UISwipeGestureRecognizer*)gestureRecognizer
@@ -194,8 +230,6 @@
     int total = self.construction.numeroLikes+self.construction.numeroDislikes;
     self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
     self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
-    self.totalVotes.text = [NSString stringWithFormat: @"Total votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
-    self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
     [DatabaseUtilities updateObraLikesAndDislikes: self.construction];
     self.likeButton.enabled = NO;
     self.dislikeButton.enabled = NO;
@@ -206,8 +240,6 @@
     int total = self.construction.numeroLikes+self.construction.numeroDislikes;
     self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
     self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
-    self.totalVotes.text = [NSString stringWithFormat: @"Toatal votos: %d", self.construction.numeroLikes+self.construction.numeroDislikes];
-    self.totalVotes.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 17];
     [DatabaseUtilities updateObraLikesAndDislikes: self.construction];
     self.dislikeButton.enabled = NO;
     self.likeButton.enabled = NO;
@@ -246,17 +278,11 @@
     cell.InfoLabel.textColor = [UIColor darkGrayColor];
     cell.InfoLabel.adjustsFontSizeToFitWidth = YES;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor colorWithRed: 230.0/255.0 green: 230.0/255.0 blue: 230.0/255.0 alpha: 0.8];
     return cell;
 }
 
 #pragma mark UITableViewDelegate
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor colorWithRed: 213.0/255.0 green: 213.0/255.0 blue: 213.0/255.0 alpha: 0.4];
-    cell.textLabel.backgroundColor = [UIColor clearColor];
-    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

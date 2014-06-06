@@ -125,9 +125,6 @@
                     
                 }];
                 [[NSOperationQueue mainQueue] addOperation:operation];
-                
-
-                
             }
         }
         else
@@ -158,11 +155,9 @@
                 [operation addExecutionBlock:^{
                     UIImage *tmpImage = [UIImage imageWithData:data];
                     completionBlock(tmpImage);
-                    
                 }];
                 [[NSOperationQueue mainQueue] addOperation:operation];
             }];
-            
         }
     }];
 }
@@ -217,7 +212,6 @@
     [query setLimit:1000];
     [query addDescendingOrder:@"updatedAt"];
     [query includeKey:@"usuario"];
-    //query.cachePolicy = kPFCachePolicyNetworkElseCache;
     query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {

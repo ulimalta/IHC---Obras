@@ -22,5 +22,6 @@
 @property (nonatomic, strong) NSString *descricao;
 @property (nonatomic) NSInteger numeroLikes;
 @property (nonatomic) NSInteger numeroDislikes;
+@property (nonatomic) NSInteger numberOfViews;
 
 @end

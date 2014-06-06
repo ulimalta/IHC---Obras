@@ -283,8 +283,6 @@
     }];
 }
 
-
-
 + (Usuario *) getCurrentUser
 {
     PFUser *pfuser = [PFUser currentUser];

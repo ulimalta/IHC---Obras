@@ -56,7 +56,7 @@
     titleLabel.textColor = textColor;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.text = @"OBrasil";
+    titleLabel.text = @"OBRAsil";
     [self.TitleNavigationItem setTitleView: titleLabel];
     self.mainTableView.separatorColor = [UIColor clearColor];
     self.mainTableView.separatorInset = UIEdgeInsetsZero;

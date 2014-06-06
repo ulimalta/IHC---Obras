@@ -25,9 +25,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *backLabel;
 @property (weak, nonatomic) IBOutlet UIButton *fowardButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousButton;
+@property (weak, nonatomic) IBOutlet UILabel *imageNumberLabel;
 
 @property (nonatomic) NSInteger currentPicture;
 @property (nonatomic, strong) NSMutableArray *commentArray;
+@property (nonatomic, strong) UIActivityIndicatorView *imageIndicator;
 
 @end
 
@@ -36,7 +38,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.imageIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [self.imageIndicator setCenter: self.Picture.center];
+    [self.view addSubview: self.imageIndicator];
     [self.BackButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
     [self.CommentButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
     self.commentArray = [[NSMutableArray alloc] init];
@@ -50,6 +54,7 @@
     if ([[self.construction pictures] count]) {
         self.currentPicture = 0;
         self.Picture.image = [self.construction.pictures objectAtIndex: 0];
+        self.imageNumberLabel.text = [NSString stringWithFormat: @"1/1"];
     }
     else {
         self.currentPicture = -1;
@@ -94,6 +99,9 @@
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     swipeRight.numberOfTouchesRequired = 1;
     [self.Picture addGestureRecognizer: swipeRight];
+    UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget: self
+                                                                               action: @selector(myTap:)];
+    [self.Picture addGestureRecognizer: tapImage];
     self.CommentsTableView.separatorInset = UIEdgeInsetsZero;
     self.CommentsTableView.dataSource = self;
     self.CommentsTableView.delegate = self;
@@ -111,18 +119,23 @@
         self.likeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroLikes*100)/total];
         self.dislikeP.text = [NSString stringWithFormat: @"%.1f%%", (float)(self.construction.numeroDislikes*100)/total];
     }
+    [self.imageIndicator startAnimating];
     [DatabaseUtilities getAllPicturesFromObra: self.construction withCompletionBlock:^void(NSArray *pArray) {
         self.construction.pictures = [pArray mutableCopy];
         if ([[self.construction pictures] count]) {
             self.currentPicture = 0;
             self.Picture.image = [self.construction.pictures objectAtIndex: 0];
+            self.imageNumberLabel.text = [NSString stringWithFormat: @"1/%d", [pArray count]];
         }
         else {
             self.currentPicture = -1;
         }
+        [self.imageIndicator stopAnimating];
     }];
     self.likeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
     self.dislikeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    self.imageNumberLabel.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
+    self.imageNumberLabel.adjustsFontSizeToFitWidth = YES;
     UIColor *color = self.likeButton.titleLabel.textColor;
     self.likeButton.clipsToBounds = YES;
     self.likeButton.layer.cornerRadius = 10.0;
@@ -161,6 +174,23 @@
     [self swipeHandlerRight: nil];
 }
 
+- (void) myTap:(UITapGestureRecognizer*)gestureRecognizer
+{
+    if (self.construction.pictures && [self.construction.pictures count]) {
+         [self performSegueWithIdentifier: @"imgSegue" sender: self];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString: @"imgSegue"]) {
+        UINavigationController *navigationController = segue.destinationViewController;
+        ImageViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
+        [nextController setOb: self.construction];
+        [nextController setIndex: (int)self.currentPicture];
+    }
+}
+
 - (void)swipeHandlerLeft:(UISwipeGestureRecognizer*)gestureRecognizer
 {
     if (self.currentPicture >= 0) {
@@ -168,6 +198,7 @@
             if (self.currentPicture + 1 < [[self.construction pictures] count]) {
                 self.currentPicture++;
                 self.Picture.image = [self.construction.pictures objectAtIndex: self.currentPicture];
+                self.imageNumberLabel.text = [NSString stringWithFormat: @"%d/%d", self.currentPicture+1, [self.construction.pictures count]];
             }
         }
     }
@@ -179,6 +210,7 @@
         if (self.currentPicture - 1 >= 0) {
             self.currentPicture--;
             self.Picture.image = [self.construction.pictures objectAtIndex: self.currentPicture];
+            self.imageNumberLabel.text = [NSString stringWithFormat: @"%d/%d", self.currentPicture+1, [self.construction.pictures count]];
         }
     }
 }

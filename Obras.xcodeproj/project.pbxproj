@@ -15,6 +15,11 @@
 		BC73E7C91938EFC6003ED344 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC73E7C81938EFC6003ED344 /* Social.framework */; };
 		BC73E7CB1938EFD2003ED344 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC73E7CA1938EFD2003ED344 /* Accounts.framework */; };
 		BC73E7CD1938EFD9003ED344 /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC73E7CC1938EFD9003ED344 /* Twitter.framework */; };
+		BC9A25EB1941E964006DE81C /* ImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9A25EA1941E964006DE81C /* ImageViewController.m */; };
+		BC9A25EF19420766006DE81C /* OBRASIL_60.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9A25EC19420766006DE81C /* OBRASIL_60.png */; };
+		BC9A25F019420766006DE81C /* OBRASIL_120.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9A25ED19420766006DE81C /* OBRASIL_120.png */; };
+		BC9A25F119420766006DE81C /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9A25EE19420766006DE81C /* splash_screen.png */; };
+		BC9A25F31942080E006DE81C /* splash_screen2.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9A25F21942080E006DE81C /* splash_screen2.png */; };
 		BCA4C0E519361980007EBE6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E419361980007EBE6A /* Foundation.framework */; };
 		BCA4C0E719361980007EBE6A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E619361980007EBE6A /* CoreGraphics.framework */; };
 		BCA4C0E919361980007EBE6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA4C0E819361980007EBE6A /* UIKit.framework */; };
@@ -69,6 +74,12 @@
 		BC73E7C81938EFC6003ED344 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		BC73E7CA1938EFD2003ED344 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		BC73E7CC1938EFD9003ED344 /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		BC9A25E91941E964006DE81C /* ImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewController.h; sourceTree = "<group>"; };
+		BC9A25EA1941E964006DE81C /* ImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewController.m; sourceTree = "<group>"; };
+		BC9A25EC19420766006DE81C /* OBRASIL_60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OBRASIL_60.png; sourceTree = "<group>"; };
+		BC9A25ED19420766006DE81C /* OBRASIL_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OBRASIL_120.png; sourceTree = "<group>"; };
+		BC9A25EE19420766006DE81C /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_screen.png; sourceTree = "<group>"; };
+		BC9A25F21942080E006DE81C /* splash_screen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_screen2.png; sourceTree = "<group>"; };
 		BCA4C0E119361980007EBE6A /* Obras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Obras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCA4C0E419361980007EBE6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BCA4C0E619361980007EBE6A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -210,28 +221,30 @@
 				BCA4C0F319361980007EBE6A /* AppDelegate.h */,
 				BCA4C0F419361980007EBE6A /* AppDelegate.m */,
 				BCA4C113193619A0007EBE6A /* Storyboard.storyboard */,
+				BC9A25E91941E964006DE81C /* ImageViewController.h */,
+				BC9A25EA1941E964006DE81C /* ImageViewController.m */,
 				BC478C591938D7A800E7F1EA /* CommentCell.h */,
 				BC478C5A1938D7A800E7F1EA /* CommentCell.m */,
-				BCA6C2821938A33600153819 /* NewConstructionViewController.h */,
-				BCA6C2831938A33600153819 /* NewConstructionViewController.m */,
+				E1C17DC91938AA270094BF9C /* Comentario.h */,
+				E1C17DCA1938AA270094BF9C /* Comentario.m */,
+				E1C17DC31938A7D70094BF9C /* DatabaseUtilities.h */,
+				E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */,
 				BCA6C27F1938A30F00153819 /* DetailViewController.h */,
 				BCA6C2801938A30F00153819 /* DetailViewController.m */,
+				BCA6C2821938A33600153819 /* NewConstructionViewController.h */,
+				BCA6C2831938A33600153819 /* NewConstructionViewController.m */,
 				BCA4C11C19361C60007EBE6A /* MapViewController.h */,
 				BCA4C11D19361C60007EBE6A /* MapViewController.m */,
 				BCA4C123193623AE007EBE6A /* MapViewAnnotation.h */,
 				BCA4C124193623AE007EBE6A /* MapViewAnnotation.m */,
 				BCA4C11919361A11007EBE6A /* MainViewController.h */,
 				BCA4C11A19361A11007EBE6A /* MainViewController.m */,
-				BCA4C0F619361980007EBE6A /* Images.xcassets */,
-				BCA4C0EB19361980007EBE6A /* Supporting Files */,
-				E1C17DC31938A7D70094BF9C /* DatabaseUtilities.h */,
-				E1C17DC41938A7D70094BF9C /* DatabaseUtilities.m */,
-				E1C17DCC1938AAE30094BF9C /* Usuario.h */,
-				E1C17DCD1938AAE30094BF9C /* Usuario.m */,
 				E1C17DC61938A9810094BF9C /* Obra.h */,
 				E1C17DC71938A9810094BF9C /* Obra.m */,
-				E1C17DC91938AA270094BF9C /* Comentario.h */,
-				E1C17DCA1938AA270094BF9C /* Comentario.m */,
+				E1C17DCC1938AAE30094BF9C /* Usuario.h */,
+				E1C17DCD1938AAE30094BF9C /* Usuario.m */,
+				BCA4C0F619361980007EBE6A /* Images.xcassets */,
+				BCA4C0EB19361980007EBE6A /* Supporting Files */,
 			);
 			path = Obras;
 			sourceTree = "<group>";
@@ -270,6 +283,10 @@
 			children = (
 				BC478C571938C12800E7F1EA /* default-image.png */,
 				BCA4C126193625F0007EBE6A /* Obras.jpg */,
+				BC9A25EC19420766006DE81C /* OBRASIL_60.png */,
+				BC9A25ED19420766006DE81C /* OBRASIL_120.png */,
+				BC9A25EE19420766006DE81C /* splash_screen.png */,
+				BC9A25F21942080E006DE81C /* splash_screen2.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -349,8 +366,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC9A25F019420766006DE81C /* OBRASIL_120.png in Resources */,
 				BCA4C12219362113007EBE6A /* gps1.gpx in Resources */,
+				BC9A25F119420766006DE81C /* splash_screen.png in Resources */,
 				BCA4C0EF19361980007EBE6A /* InfoPlist.strings in Resources */,
+				BC9A25EF19420766006DE81C /* OBRASIL_60.png in Resources */,
+				BC9A25F31942080E006DE81C /* splash_screen2.png in Resources */,
 				BCA4C0F719361980007EBE6A /* Images.xcassets in Resources */,
 				BCA4C114193619A0007EBE6A /* Storyboard.storyboard in Resources */,
 				BCA4C127193625F0007EBE6A /* Obras.jpg in Resources */,
@@ -378,6 +399,7 @@
 				E1C17DC81938A9810094BF9C /* Obra.m in Sources */,
 				BCA4C11B19361A11007EBE6A /* MainViewController.m in Sources */,
 				BCA4C0F119361980007EBE6A /* main.m in Sources */,
+				BC9A25EB1941E964006DE81C /* ImageViewController.m in Sources */,
 				BCA4C11E19361C60007EBE6A /* MapViewController.m in Sources */,
 				BCA4C125193623AE007EBE6A /* MapViewAnnotation.m in Sources */,
 				BC478C5B1938D7A800E7F1EA /* CommentCell.m in Sources */,

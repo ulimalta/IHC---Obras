@@ -150,6 +150,10 @@
     [self.okButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
     [self.cancelButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
     self.backLabel.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
+    self.pictureImageView.clipsToBounds = YES;
+    self.pictureImageView.layer.cornerRadius = 5.0;
+    self.MyMap.clipsToBounds = YES;
+    self.MyMap.layer.cornerRadius = 5.0;
 }
 
 - (void)viewDidAppear:(BOOL)animated{

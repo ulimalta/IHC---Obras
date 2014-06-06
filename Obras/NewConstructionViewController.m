@@ -74,6 +74,7 @@
         }
     } ];
     self.novaObra = [[Obra alloc] init];
+    self.novaObra.numberOfViews = 0;
     self.novaObra.usuario = [DatabaseUtilities getCurrentUser];
     self.novaObra.numeroLikes = 0;
     self.novaObra.numeroDislikes = 0;

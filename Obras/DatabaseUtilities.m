@@ -49,34 +49,24 @@
     [commentsQuery whereKey:@"obra"
                     equalTo:[PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId]];
     commentsQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
-    //commentsQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [commentsQuery includeKey:@"usuario"];
     [commentsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for(PFObject* parseObj in objects)
         {
             Comentario* commentObj = [[Comentario alloc]init];
-            
             commentObj.postDate = parseObj[@"PostDate"];
             commentObj.comment = parseObj[@"comment"];
-            
-            //user info
-            
             PFObject *parseUser = parseObj[@"usuario"];
             Usuario* user = [[Usuario alloc]init];
             user.userName = parseUser[@"username"];
             user.userID = parseUser.objectId;
-          
-            
             commentObj.user = user;
-            
-            
             [commentsArray addObject:commentObj];
             
         }
         NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
         [operation addExecutionBlock:^{
             completionBlock(commentsArray);
-            
         }];
         [[NSOperationQueue mainQueue] addOperation:operation];
     }];
@@ -142,7 +132,6 @@
             NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
             [operation addExecutionBlock:^{
                 completionBlock(nil);
-                
             }];
             [[NSOperationQueue mainQueue] addOperation:operation];
         }
@@ -177,7 +166,6 @@
              withCompletionBlock:(void (^) (NSArray* )) completionBlock
 {
     CGFloat kilometers = 1000;
-    
     PFQuery *query = [PFQuery queryWithClassName:@"Obra"];
     [query setLimit:1000];
     [query whereKey:@"location"
@@ -207,8 +195,7 @@
                 [obrasArray addObject:minhaObra];
                 NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
                 [operation addExecutionBlock:^{
-                    completionBlock(obrasArray);
-                    
+                    completionBlock(obrasArray);                    
                 }];
                 [[NSOperationQueue mainQueue] addOperation:operation];                
             }

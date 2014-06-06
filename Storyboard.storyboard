@@ -23,7 +23,6 @@
                                 <items>
                                     <tabBarItem systemItem="recents" id="Blk-Vb-VkR"/>
                                     <tabBarItem systemItem="mostViewed" id="uSY-mw-KUy"/>
-                                    <tabBarItem systemItem="favorites" id="YjL-h9-hpd"/>
                                 </items>
                             </tabBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="zSO-6d-92a">
@@ -620,7 +619,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="default-image.png" width="1490" height="1080"/>
         <image name="default-image.png" width="1490" height="1080"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

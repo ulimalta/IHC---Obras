@@ -38,6 +38,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.construction.numberOfViews++;
+    [DatabaseUtilities updateObraNumberOfViews: self.construction];
     self.imageIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [self.imageIndicator setCenter: self.Picture.center];
     [self.view addSubview: self.imageIndicator];

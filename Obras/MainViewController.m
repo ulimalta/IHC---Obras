@@ -8,7 +8,7 @@
 
 #import "MainViewController.h"
 
-@interface MainViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface MainViewController () <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *MapButton;
@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSMutableArray *cArray;
 @property (nonatomic) NSInteger constNumber;
+@property (nonatomic) NSInteger selected;
 
 @end
 
@@ -31,24 +32,11 @@
     else {
         self.logInOutButton.title = @"Log Out";
     }
-    [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
-        self.cArray = [constructionsArray mutableCopy];
-        for (Obra *ob in self.cArray) {
-            [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
-                ob.pictures = [[NSMutableArray alloc] init];
-                if (img) {
-                    [ob.pictures addObject: img];
-                    [self.mainTableView reloadData];
-                }
-            }];
-        }
-        [self.mainTableView reloadData];
-    }];
 }
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];    
+    [super viewDidLoad];
     UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
@@ -64,22 +52,25 @@
     [refreshControl addTarget: self action: @selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.mainTableView addSubview: refreshControl];
     [self.MyTabBar setSelectedItem: [self.MyTabBar.items objectAtIndex: 0]];
+    self.MyTabBar.delegate = self;
+    self.selected = 0;
     self.cArray = [[NSMutableArray alloc] init];
     self.mainTableView.dataSource = self;
     self.mainTableView.delegate = self;
-    
     [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
-        self.cArray = [constructionsArray mutableCopy];
-        for (Obra *ob in self.cArray) {
-            [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
-                ob.pictures = [[NSMutableArray alloc] init];
-                if (img) {
-                    [ob.pictures addObject: img];
-                    [self.mainTableView reloadData];
-                }
-            }];
+        if (constructionsArray) {
+            self.cArray = [constructionsArray mutableCopy];
+            for (Obra *ob in self.cArray) {
+                [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                    ob.pictures = [[NSMutableArray alloc] init];
+                    if (img) {
+                        [ob.pictures addObject: img];
+                        [self.mainTableView reloadData];
+                    }
+                }];
+            }
+            [self.mainTableView reloadData];
         }
-        [self.mainTableView reloadData];
     }];
     [self.logInOutButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
     [self.MapButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
@@ -99,20 +90,40 @@
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
-    [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
-        self.cArray = [constructionsArray mutableCopy];
-        for (Obra *ob in self.cArray) {
-            [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
-                ob.pictures = [[NSMutableArray alloc] init];
-                if (img) {
-                    [ob.pictures addObject: img];
-                    [self.mainTableView reloadData];
+    if (!self.selected) {
+        [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
+            if (constructionsArray) {
+                self.cArray = [constructionsArray mutableCopy];
+                for (Obra *ob in self.cArray) {
+                    [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                        ob.pictures = [[NSMutableArray alloc] init];
+                        if (img) {
+                            [ob.pictures addObject: img];
+                            [self.mainTableView reloadData];
+                        }
+                    }];
                 }
-            }];
-        }
-        [self.mainTableView reloadData];
-        [refreshControl endRefreshing];
-    }];
+                [self.mainTableView reloadData];
+            }
+        }];
+    }
+    else {
+        [DatabaseUtilities getObrasMostViewedWithCompletionBlock:^void(NSArray *constructionsArray) {
+            if (constructionsArray) {
+                self.cArray = [constructionsArray mutableCopy];
+                for (Obra *ob in self.cArray) {
+                    [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                        ob.pictures = [[NSMutableArray alloc] init];
+                        if (img) {
+                            [ob.pictures addObject: img];
+                            [self.mainTableView reloadData];
+                        }
+                    }];
+                }
+                [self.mainTableView reloadData];
+            }
+        }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -254,6 +265,39 @@
 {
     self.constNumber = [indexPath row];
     [self performSegueWithIdentifier: @"directDetailSegue" sender: self];
+}
+
+#pragma mark UITabBarDelegate
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    if ([self.MyTabBar.items objectAtIndex: 0] == item) {
+        self.selected = 0;
+        [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
+            if (constructionsArray) {
+                self.cArray = [constructionsArray mutableCopy];
+                for (Obra *ob in self.cArray) {
+                    [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                        ob.pictures = [[NSMutableArray alloc] init];
+                        if (img) {
+                            [ob.pictures addObject: img];
+                            [self.mainTableView reloadData];
+                        }
+                    }];
+                }
+                [self.mainTableView reloadData];
+            }
+        }];
+    }
+    else {
+        self.selected = 1;
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey: @"numberOfViews" ascending: YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObject: sortDescriptor];
+        NSArray *sortedArray = [self.cArray sortedArrayUsingDescriptors: sortDescriptors];
+        self.cArray = [sortedArray mutableCopy];
+        [self.mainTableView reloadData];
+    }
 }
 
 @end

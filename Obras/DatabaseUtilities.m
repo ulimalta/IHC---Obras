@@ -48,6 +48,7 @@
     [commentsQuery whereKey:@"obra"
                     equalTo:[PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId]];
     commentsQuery.cachePolicy = kPFCachePolicyNetworkElseCache;
+    //commentsQuery.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [commentsQuery includeKey:@"usuario"];
     [commentsQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         for(PFObject* parseObj in objects)
@@ -105,6 +106,7 @@
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query whereKey:@"obra" equalTo:pfobra];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if([objects count])
@@ -134,6 +136,7 @@
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Photo"];
     PFObject* pfobra = [PFObject objectWithoutDataWithClassName:@"Obra" objectId:obra.obraId];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query whereKey:@"obra" equalTo:pfobra];
     [query setLimit:1];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -166,6 +169,7 @@
        nearGeoPoint:[PFGeoPoint geoPointWithLatitude: userLatitude
                                            longitude: userLongitude]
     withinKilometers:kilometers];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query includeKey:@"usuario"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
@@ -203,7 +207,8 @@
     [query setLimit:1000];
     [query addDescendingOrder:@"updatedAt"];
     [query includeKey:@"usuario"];
-    query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    //query.cachePolicy = kPFCachePolicyNetworkElseCache;
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSMutableArray *obrasArray = [[NSMutableArray alloc]init];

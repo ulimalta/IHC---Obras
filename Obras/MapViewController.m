@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackButton;
 @property (weak, nonatomic) IBOutlet MKMapView *MyMap;
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *plusButton;
 
 @property (strong, nonatomic) MKUserLocation *userLocation;
 @property (nonatomic, strong) NSMutableArray *constructions;
@@ -28,7 +29,7 @@
     self.MyMap.showsUserLocation = YES;
     self.MyMap.delegate = self;
     self.MyMap.mapType = MKMapTypeStandard;
-    UIFont *textFont = [UIFont fontWithName: @"Chalkduster" size: 17];
+    UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
     titleLabel.font = textFont;
@@ -37,6 +38,9 @@
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = @"Mapa Obras";
     [self.TitleNavigationItem setTitleView: titleLabel];
+    self.view.backgroundColor = [UIColor colorWithRed: 215.0/255.0 green: 215.0/255.0 blue: 215.0/255.0 alpha: 0.5];
+    [self.BackButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
+    [self.plusButton setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName: @"Noteworthy-Bold" size: 13], NSFontAttributeName, nil] forState: UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,6 +56,14 @@
     if (![PFUser currentUser]) {
         [[[UIAlertView alloc] initWithTitle: @"Log In."
                                     message: @"Você precisa estar logado para adicionar uma nova obra!"
+                                   delegate: nil
+                          cancelButtonTitle: @"ok"
+                          otherButtonTitles: nil] show];
+        return;
+    }
+    else if (!self.userLocation) {
+        [[[UIAlertView alloc] initWithTitle: @"Localização."
+                                    message: @"Localização não encontrada. Verifique se os serviços de localização estão ativados no seu dispositivo."
                                    delegate: nil
                           cancelButtonTitle: @"ok"
                           otherButtonTitles: nil] show];
@@ -101,12 +113,15 @@
                                    CLLocationCoordinate2D myLocation;
                                    myLocation.latitude = ob.lat;
                                    myLocation.longitude = ob.longi;
-                                   MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
-                                                                                                           title: ob.titulo
-                                                                                                        subTitle: ob.descricao];
-                                   [self.MyMap addAnnotation: annotation];
-                                   MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
-                                   [self.MyMap addOverlay: circle];
+                                   [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *myImg) {
+                                       MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
+                                                                                                               title: ob.titulo
+                                                                                                            subTitle: ob.descricao
+                                                                                                              setImg: myImg];
+                                       [self.MyMap addAnnotation: annotation];
+                                       MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
+                                       [self.MyMap addOverlay: circle];
+                                   }];
                                }
                            }];
 }
@@ -128,9 +143,19 @@
         else {
             pinView.annotation = annotation;
         }
-        pinView.rightCalloutAccessoryView = [UIButton buttonWithType: UIButtonTypeContactAdd];
-        UIImageView *img = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Obras.jpg"]];
+        MapViewAnnotation *a = (MapViewAnnotation*)annotation;
+        UIImageView *img;
+        if (a.img) {
+            img = [[UIImageView alloc] initWithImage: a.img];
+        }
+        else {
+            img = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Obras.jpg"]];
+        }
         img.frame = CGRectMake(0, 0, 40, 40);
+        img.clipsToBounds = YES;
+        img.layer.cornerRadius = 5.0;
+        pinView.rightCalloutAccessoryView = [UIButton buttonWithType: UIButtonTypeContactAdd];
+        pinView.leftCalloutAccessoryView = img;
         pinView.leftCalloutAccessoryView = img;
         return pinView;
     }

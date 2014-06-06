@@ -10,17 +10,19 @@
 
 @implementation MapViewAnnotation
 
-@synthesize title, subtitle, coordinate;
+@synthesize title, subtitle, coordinate, img;
 
 -(id)initWithCoordinate :(CLLocationCoordinate2D) c
                    title:(NSString *) t
                 subTitle:(NSString *) st
+                  setImg:(UIImage *) myImg
 {
     self = [super init];
     if (self) {
         title = t;
         subtitle = st;
         coordinate = c;
+        img = myImg;
     }   
     return self;
 }

@@ -14,6 +14,7 @@
 #import "Comentario.h"
 #import "DatabaseUtilities.h"
 #import "CommentCell.h"
+#import "ImageViewController.h"
 
 @interface DetailViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 

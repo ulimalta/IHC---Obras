@@ -18,6 +18,7 @@
 @property (strong, nonatomic) MKUserLocation *userLocation;
 @property (nonatomic, strong) NSMutableArray *constructions;
 @property (nonatomic) int constNumber;
+@property (atomic) BOOL updateFlag;
 
 @end
 
@@ -26,6 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.updateFlag = YES;
     self.MyMap.showsUserLocation = YES;
     self.MyMap.delegate = self;
     self.MyMap.mapType = MKMapTypeStandard;
@@ -89,42 +91,45 @@
 #pragma mark - MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
-    MKCoordinateRegion region;
-    MKCoordinateSpan span;
-    span.latitudeDelta = 0.005;
-    span.longitudeDelta = 0.005;
-    CLLocationCoordinate2D location;
-    location.latitude = aUserLocation.coordinate.latitude;
-    location.longitude = aUserLocation.coordinate.longitude;
-    region.span = span;
-    region.center = location;
-    self.userLocation = aUserLocation;
-    [aMapView setRegion: region animated: YES];
-    NSArray *existingpoints = self.MyMap.annotations;
-    if ([existingpoints count]) {
-        [self.MyMap removeAnnotations: existingpoints];
-    }
-    [DatabaseUtilities getObrasForUserLatitude: self.userLocation.location.coordinate.latitude
-                                 userLongitude: self.userLocation.location.coordinate.longitude
-                           withCompletionBlock: ^void(NSArray *constructionsArray) {
-                               if (constructionsArray) {
-                                   self.constructions = [constructionsArray mutableCopy];
-                                   for (Obra *ob in self.constructions) {
-                                       CLLocationCoordinate2D myLocation;
-                                       myLocation.latitude = ob.lat;
-                                       myLocation.longitude = ob.longi;
-                                       [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *myImg) {
-                                           MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
-                                                                                                                   title: ob.titulo
-                                                                                                                subTitle: ob.descricao
-                                                                                                                  setImg: myImg];
-                                           [self.MyMap addAnnotation: annotation];
-                                           MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
-                                           [self.MyMap addOverlay: circle];
-                                       }];
+    if (self.updateFlag == YES) {
+        self.updateFlag = NO;
+        MKCoordinateRegion region;
+        MKCoordinateSpan span;
+        span.latitudeDelta = 0.005;
+        span.longitudeDelta = 0.005;
+        CLLocationCoordinate2D location;
+        location.latitude = aUserLocation.coordinate.latitude;
+        location.longitude = aUserLocation.coordinate.longitude;
+        region.span = span;
+        region.center = location;
+        self.userLocation = aUserLocation;
+        [aMapView setRegion: region animated: YES];
+        NSArray *existingpoints = self.MyMap.annotations;
+        if ([existingpoints count]) {
+            [self.MyMap removeAnnotations: existingpoints];
+        }
+        [DatabaseUtilities getObrasForUserLatitude: self.userLocation.location.coordinate.latitude
+                                     userLongitude: self.userLocation.location.coordinate.longitude
+                               withCompletionBlock: ^void(NSArray *constructionsArray) {
+                                   if (constructionsArray) {
+                                       self.constructions = [constructionsArray mutableCopy];
+                                       for (Obra *ob in self.constructions) {
+                                           CLLocationCoordinate2D myLocation;
+                                           myLocation.latitude = ob.lat;
+                                           myLocation.longitude = ob.longi;
+                                           [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *myImg) {
+                                               MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
+                                                                                                                       title: ob.titulo
+                                                                                                                    subTitle: ob.descricao
+                                                                                                                      setImg: myImg];
+                                               [self.MyMap addAnnotation: annotation];
+                                               MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
+                                               [self.MyMap addOverlay: circle];
+                                           }];
+                                       }
                                    }
-                               }
-                           }];
+                               }];
+    }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation

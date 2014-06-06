@@ -20,6 +20,7 @@
     newObra[@"location"] = pfgeoPoint;
     newObra[@"numeroDislikes"] = [NSNumber numberWithInt:obra.numeroDislikes];
     newObra[@"numeroLikes"] = [NSNumber numberWithInt:obra.numeroLikes];
+    newObra[@"numberOfViews"] = [NSNumber numberWithInt:obra.numberOfViews];
     [newObra saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         for(UIImage* myimg in obra.pictures)
         {
@@ -98,6 +99,15 @@
     [postQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
         object[@"numeroLikes"] = [NSNumber numberWithInteger:obra.numeroLikes];
         object[@"numeroDislikes"] = [NSNumber numberWithInteger:obra.numeroDislikes];
+        [object saveInBackground];
+    }];
+}
+
++ (void) updateObraNumberOfViews:(Obra *)obra
+{
+    PFQuery* postQuery = [PFQuery queryWithClassName:@"Obra"];
+    [postQuery getObjectInBackgroundWithId:obra.obraId block:^(PFObject *object, NSError *error) {
+        object[@"numberOfViews"] = [NSNumber numberWithInteger:obra.numberOfViews];
         [object saveInBackground];
     }];
 }
@@ -187,7 +197,7 @@
                 obraUsuario.userID = pfObraUsuario.objectId;
                 obraUsuario.userName = pfObraUsuario.username;
                 minhaObra.usuario = obraUsuario;
-                
+                 minhaObra.numberOfViews = [object[@"numberOfViews"] intValue];
                 minhaObra.titulo = object[@"titulo"];
                 minhaObra.numeroDislikes = [object[@"numeroDislikes"] intValue];
                 minhaObra.numeroLikes = [object[@"numeroLikes"] intValue];
@@ -224,7 +234,7 @@
                 obraUsuario.userID = pfObraUsuario.objectId;
                 obraUsuario.userName = pfObraUsuario.username;
                 minhaObra.usuario = obraUsuario;
-                
+                minhaObra.numberOfViews = [object[@"numberOfViews"] intValue];
                 minhaObra.titulo = object[@"titulo"];
                 minhaObra.numeroDislikes = [object[@"numeroDislikes"] intValue];
                 minhaObra.numeroLikes = [object[@"numeroLikes"] intValue];
@@ -241,6 +251,44 @@
         }
     }];
 }
+
++ (void) getObrasMostViewedWithCompletionBlock:(void (^) (NSArray* )) completionBlock
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Obra"];
+    [query setLimit:1000];
+    [query addDescendingOrder:@"numberOfViews"];
+    [query includeKey:@"usuario"];
+    query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            NSMutableArray *obrasArray = [[NSMutableArray alloc]init];
+            for (PFObject *object in objects) {
+                Obra * minhaObra = [[Obra alloc]init];
+                minhaObra.obraId = object.objectId;
+                PFUser *pfObraUsuario = object[@"usuario"];
+                Usuario* obraUsuario = [[Usuario alloc]init];
+                obraUsuario.userID = pfObraUsuario.objectId;
+                obraUsuario.userName = pfObraUsuario.username;
+                minhaObra.usuario = obraUsuario;
+                minhaObra.numberOfViews = [object[@"numberOfViews"] intValue];
+                minhaObra.titulo = object[@"titulo"];
+                minhaObra.numeroDislikes = [object[@"numeroDislikes"] intValue];
+                minhaObra.numeroLikes = [object[@"numeroLikes"] intValue];
+                minhaObra.descricao = object[@"descricao"];
+                minhaObra.lat = ((PFGeoPoint*)object[@"location"]).latitude;
+                minhaObra.longi = ((PFGeoPoint*)object[@"location"]).longitude;
+                [obrasArray addObject:minhaObra];
+                NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
+                [operation addExecutionBlock:^{
+                    completionBlock(obrasArray);
+                }];
+                [[NSOperationQueue mainQueue] addOperation:operation];
+            }
+        }
+    }];
+}
+
+
 
 + (Usuario *) getCurrentUser
 {

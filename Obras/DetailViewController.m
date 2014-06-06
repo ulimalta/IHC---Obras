@@ -101,7 +101,6 @@
     [self.Picture addGestureRecognizer: swipeRight];
     UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget: self
                                                                                action: @selector(myTap:)];
-    [self.Picture addGestureRecognizer: tapImage];
     self.CommentsTableView.separatorInset = UIEdgeInsetsZero;
     self.CommentsTableView.dataSource = self;
     self.CommentsTableView.delegate = self;
@@ -131,6 +130,7 @@
             self.currentPicture = -1;
         }
         [self.imageIndicator stopAnimating];
+        [self.Picture addGestureRecognizer: tapImage];
     }];
     self.likeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
     self.dislikeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];

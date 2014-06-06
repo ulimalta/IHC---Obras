@@ -621,6 +621,7 @@
     </scenes>
     <resources>
         <image name="default-image.png" width="1490" height="1080"/>
+        <image name="default-image.png" width="1490" height="1080"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

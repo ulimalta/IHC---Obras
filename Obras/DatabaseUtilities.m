@@ -109,6 +109,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if([objects count])
         {
+            
             NSMutableArray *myPhotos = [[NSMutableArray alloc]init];
             for(int i = 0; i < [objects count] ; i++)
             {
@@ -123,6 +124,15 @@
                 }];
                 [[NSOperationQueue mainQueue] addOperation:operation];
             }
+        }
+        else
+        {
+            NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
+            [operation addExecutionBlock:^{
+                completionBlock(nil);
+                
+            }];
+            [[NSOperationQueue mainQueue] addOperation:operation];
         }
     }];
 }

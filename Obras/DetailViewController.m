@@ -51,12 +51,13 @@
     self.Picture.userInteractionEnabled = YES;
     self.Picture.layer.cornerRadius = 5.0;
     self.Picture.clipsToBounds = YES;
-    if ([[self.construction pictures] count]) {
+    if (self.construction.pictures && [[self.construction pictures] count]) {
         self.currentPicture = 0;
         self.Picture.image = [self.construction.pictures objectAtIndex: 0];
         self.imageNumberLabel.text = [NSString stringWithFormat: @"1/1"];
     }
     else {
+        self.construction.pictures = [[NSMutableArray alloc] init];
         self.currentPicture = -1;
     }
     UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
@@ -120,16 +121,18 @@
     }
     [self.imageIndicator startAnimating];
     [DatabaseUtilities getAllPicturesFromObra: self.construction withCompletionBlock:^void(NSArray *pArray) {
-        self.construction.pictures = [pArray mutableCopy];
-        if ([[self.construction pictures] count]) {
-            self.currentPicture = 0;
-            self.Picture.image = [self.construction.pictures objectAtIndex: 0];
-            self.imageNumberLabel.text = [NSString stringWithFormat: @"1/%d", [pArray count]];
-        }
-        else {
-            self.currentPicture = -1;
-        }
         [self.imageIndicator stopAnimating];
+        if (pArray && [pArray count]) {
+            self.construction.pictures = [pArray mutableCopy];
+            if ([[self.construction pictures] count]) {
+                self.currentPicture = 0;
+                self.Picture.image = [self.construction.pictures objectAtIndex: 0];
+                self.imageNumberLabel.text = [NSString stringWithFormat: @"1/%d", [pArray count]];
+            }
+            else {
+                self.currentPicture = -1;
+            }
+        }
         [self.Picture addGestureRecognizer: tapImage];
     }];
     self.likeP.font = [UIFont fontWithName: @"Noteworthy-Bold" size: 15];
@@ -193,7 +196,7 @@
 
 - (void)swipeHandlerLeft:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    if (self.currentPicture >= 0) {
+    if (self.currentPicture >= 0 && self.construction.pictures) {
         if (self.currentPicture >= 0) {
             if (self.currentPicture + 1 < [[self.construction pictures] count]) {
                 self.currentPicture++;
@@ -206,7 +209,7 @@
 
 - (void)swipeHandlerRight:(UISwipeGestureRecognizer*)gestureRecognizer
 {
-    if (self.currentPicture >= 0) {
+    if (self.currentPicture >= 0 && self.construction.pictures) {
         if (self.currentPicture - 1 >= 0) {
             self.currentPicture--;
             self.Picture.image = [self.construction.pictures objectAtIndex: self.currentPicture];
@@ -346,13 +349,12 @@
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:picker animated: YES completion: NULL];
+        [self presentViewController: picker animated: YES completion: NULL];
     }
     else if ([[alertView textFieldAtIndex: 0] text] && ![[[alertView textFieldAtIndex:0] text] isEqualToString: @""]) {
         Comentario *newComment = [[Comentario alloc] init];
         newComment.comment = [[alertView textFieldAtIndex: 0] text];
         newComment.user = [DatabaseUtilities getCurrentUser];
-        NSLog(@"asasa");
         if (!self.commentArray || ![self.commentArray count]) {
             self.commentArray = [[NSMutableArray alloc] init];
         }
@@ -368,11 +370,15 @@
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     if (!self.construction.pictures || ![self.construction.pictures count]) {
         self.construction.pictures = [[NSMutableArray alloc] init];
+        UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget: self
+                                                                                   action: @selector(myTap:)];
+        [self.Picture addGestureRecognizer: tapImage];
     }
     [[self.construction pictures] insertObject: chosenImage atIndex: 0];
     if ([[self.construction pictures] count]) {
         self.currentPicture = 0;
         self.Picture.image = [self.construction.pictures objectAtIndex: 0];
+        self.imageNumberLabel.text = [NSString stringWithFormat: @"%d/%d", self.currentPicture+1, [self.construction.pictures count]];
     }
     else {
         self.currentPicture = -1;

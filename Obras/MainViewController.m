@@ -103,6 +103,7 @@
                         }
                     }];
                 }
+                [refreshControl endRefreshing];
                 [self.mainTableView reloadData];
             }
         }];
@@ -120,6 +121,7 @@
                         }
                     }];
                 }
+                [refreshControl endRefreshing];
                 [self.mainTableView reloadData];
             }
         }];
@@ -292,7 +294,7 @@
     else {
         self.selected = 1;
         NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey: @"numberOfViews" ascending: YES];
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey: @"numberOfViews" ascending: NO];
         NSArray *sortDescriptors = [NSArray arrayWithObject: sortDescriptor];
         NSArray *sortedArray = [self.cArray sortedArrayUsingDescriptors: sortDescriptors];
         self.cArray = [sortedArray mutableCopy];

@@ -27,5 +27,8 @@
 + (void) getOneAndOnlyOnePictureFromObra:(Obra *)obra withCompletionBlock:(void (^) (UIImage* )) completionBlock;
 + (void) getObrasMostRecentWithCompletionBlock:(void (^) (NSArray* )) completionBlock;
 + (void) getAllPicturesFromObra:(Obra *)obra withCompletionBlock:(void (^) (NSArray * )) completionBlock;
++ (void) updateObraNumberOfViews:(Obra *)obra;
+
++ (void) getObrasMostViewedWithCompletionBlock:(void (^) (NSArray* )) completionBlock;
 
 @end

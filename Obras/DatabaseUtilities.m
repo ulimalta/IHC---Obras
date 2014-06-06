@@ -158,6 +158,14 @@
                 [[NSOperationQueue mainQueue] addOperation:operation];
             }];
         }
+        else
+        {
+            NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
+            [operation addExecutionBlock:^{
+                completionBlock(nil);
+            }];
+            [[NSOperationQueue mainQueue] addOperation:operation];
+        }
     }];
 }
 

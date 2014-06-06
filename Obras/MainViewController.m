@@ -32,6 +32,21 @@
     else {
         self.logInOutButton.title = @"Log Out";
     }
+    [DatabaseUtilities getObrasMostRecentWithCompletionBlock:^void(NSArray *constructionsArray) {
+        if (constructionsArray) {
+            self.cArray = [constructionsArray mutableCopy];
+            for (Obra *ob in self.cArray) {
+                [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *img) {
+                    ob.pictures = [[NSMutableArray alloc] init];
+                    if (img) {
+                        [ob.pictures addObject: img];
+                        [self.mainTableView reloadData];
+                    }
+                }];
+            }
+            [self.mainTableView reloadData];
+        }
+    }];
 }
 
 - (void)viewDidLoad
@@ -103,7 +118,6 @@
                         }
                     }];
                 }
-                [refreshControl endRefreshing];
                 [self.mainTableView reloadData];
             }
         }];
@@ -121,11 +135,11 @@
                         }
                     }];
                 }
-                [refreshControl endRefreshing];
                 [self.mainTableView reloadData];
             }
         }];
     }
+    [refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning

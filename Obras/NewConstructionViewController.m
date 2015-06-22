@@ -59,7 +59,7 @@
     self.latitudeTextField.text = [NSString stringWithFormat: @"%.8f", self.userLocation.coordinate.latitude];
     self.longitudeTextField.text = [NSString stringWithFormat: @"%.8f", self.userLocation.coordinate.longitude];
     geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation: self.userLocation.location completionHandler:^(NSArray *placemarks, NSError *error) {
+    [geocoder reverseGeocodeLocation: self.userLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
             [self.cityTextField setText:[NSString stringWithFormat: @"%@", placemark.locality]];
@@ -216,6 +216,7 @@
                       otherButtonTitles: @"Biblioteca", @"Tirar foto", nil] show];
 }
 
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -239,7 +240,7 @@
     }
 }
 
-- (void) setUserLocation:(MKUserLocation *)userLocation
+- (void) setUserLocation:(CLLocation *)userLocation
 {
     _userLocation = userLocation;
 }
@@ -259,7 +260,7 @@
     [aMapView setRegion: region animated: YES];
     self.latitudeTextField.text = [NSString stringWithFormat: @"%.8f", aUserLocation.coordinate.latitude];
     self.longitudeTextField.text = [NSString stringWithFormat: @"%.8f", aUserLocation.coordinate.longitude];
-    self.userLocation = aUserLocation;
+    //self.userLocation = aUserLocation;
     self.novaObra.lat = self.userLocation.coordinate.latitude;
     self.novaObra.longi = self.userLocation.coordinate.longitude;
     [geocoder reverseGeocodeLocation: aUserLocation.location completionHandler:^(NSArray *placemarks, NSError *error) {

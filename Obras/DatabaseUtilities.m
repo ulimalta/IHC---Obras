@@ -176,6 +176,7 @@
     CGFloat kilometers = 1000;
     PFQuery *query = [PFQuery queryWithClassName:@"Obra"];
     [query setLimit:1000];
+    NSLog(@"%f - %f", userLatitude, userLongitude);
     [query whereKey:@"location"
        nearGeoPoint:[PFGeoPoint geoPointWithLatitude: userLatitude
                                            longitude: userLongitude]
@@ -185,6 +186,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             NSMutableArray *obrasArray = [[NSMutableArray alloc]init];
+            NSLog(@"Obras encontradas: %lu", [objects count]);
             for (PFObject *object in objects) {
                 Obra * minhaObra = [[Obra alloc]init];
                 minhaObra.obraId = object.objectId;
@@ -200,6 +202,7 @@
                 minhaObra.descricao = object[@"descricao"];
                 minhaObra.lat = ((PFGeoPoint*)object[@"location"]).latitude;
                 minhaObra.longi = ((PFGeoPoint*)object[@"location"]).longitude;
+                NSLog(@"Obra: %@", minhaObra);
                 [obrasArray addObject:minhaObra];
                 NSBlockOperation *operation  = [[NSBlockOperation alloc]init];
                 [operation addExecutionBlock:^{

@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *BackButton;
 @property (weak, nonatomic) IBOutlet MKMapView *MyMap;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 @property (weak, nonatomic) IBOutlet UINavigationItem *TitleNavigationItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *plusButton;
 
@@ -27,10 +28,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self setupLocationServices];
     self.updateFlag = YES;
-    self.MyMap.showsUserLocation = YES;
-    self.MyMap.delegate = self;
-    self.MyMap.mapType = MKMapTypeStandard;
+    [self mapInitialSetup];
+    
     UIFont *textFont = [UIFont fontWithName: @"Noteworthy-Bold" size: 18];
     UIColor *textColor = [UIColor colorWithRed: 139.0/255.0 green: 191.0/255.0 blue: 249.0/255.0 alpha: 1.0];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 320, 30)];
@@ -63,7 +65,7 @@
                           otherButtonTitles: nil] show];
         return;
     }
-    else if (!self.userLocation) {
+    else if (!self.locationManager.location) {
         [[[UIAlertView alloc] initWithTitle: @"Localização."
                                     message: @"Localização não encontrada. Verifique se os serviços de localização estão ativados no seu dispositivo."
                                    delegate: nil
@@ -84,52 +86,156 @@
     else if ([[segue identifier] isEqualToString: @"newConstructionSegue"]) {
         UINavigationController *navigationController = segue.destinationViewController;
         NewConstructionViewController *nextController = (id)[[navigationController viewControllers] objectAtIndex: 0];
-        [nextController setUserLocation: self.userLocation];
+        [nextController setUserLocation: self.locationManager.location];
     }
+}
+
+#pragma mark - Private Methods
+
+- (void)requestAuthorizationForLocationServices
+{
+    switch ([CLLocationManager authorizationStatus]) {
+        case kCLAuthorizationStatusNotDetermined:
+        {
+            [self.locationManager requestAlwaysAuthorization];
+        }
+            break;
+            
+        case kCLAuthorizationStatusDenied:
+        {
+            UIAlertView *warningAlert = [[UIAlertView alloc] initWithTitle:@"Location Services" message:@"In order to use this feature, it's necessary to enable locations services for SFSF in the settings of your device." delegate:nil cancelButtonTitle:@"I understand" otherButtonTitles: nil];
+            [warningAlert show];
+        }
+            break;
+            
+        case kCLAuthorizationStatusAuthorizedAlways:
+        {
+            NSLog(@"kCLAuthorizationStatusAuthorizedAlways setted");
+        }
+            break;
+            
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+        {
+            NSLog(@"kCLAuthorizationStatusAuthorizedWhenInUse setted");
+        }
+            
+        default:
+            break;
+    }
+}
+
+- (void)setupLocationServices
+{
+    self.locationManager = [[CLLocationManager alloc] init];
+    
+    //ask for atuhorization
+    [self requestAuthorizationForLocationServices];
+        NSLog(@"Autorizacao");
+    
+    //set accuracy
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+    
+    self.locationManager.delegate = self;
+    
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)mapInitialSetup
+{
+    //show user location
+    self.MyMap.showsUserLocation = YES;
+    self.MyMap.delegate = self;
+    self.MyMap.mapType = MKMapTypeStandard;
+    
 }
 
 #pragma mark - MKMapViewDelegate
 
-- (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
+//- (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
+//    if (self.updateFlag == YES) {
+//        NSLog(@"update");
+//        self.updateFlag = NO;
+//        MKCoordinateRegion region;
+//        MKCoordinateSpan span;
+//        span.latitudeDelta = 0.005;
+//        span.longitudeDelta = 0.005;
+//        CLLocationCoordinate2D location;
+//        location.latitude = aUserLocation.coordinate.latitude;
+//        location.longitude = aUserLocation.coordinate.longitude;
+//        region.span = span;
+//        region.center = location;
+//        self.userLocation = aUserLocation;
+//        [aMapView setRegion: region animated: YES];
+//        NSArray *existingpoints = self.MyMap.annotations;
+//        if ([existingpoints count]) {
+//            [self.MyMap removeAnnotations: existingpoints];
+//        }
+//        [DatabaseUtilities getObrasForUserLatitude: self.userLocation.location.coordinate.latitude
+//                                     userLongitude: self.userLocation.location.coordinate.longitude
+//                               withCompletionBlock: ^void(NSArray *constructionsArray) {
+//                                   if (constructionsArray) {
+//                                       self.constructions = [constructionsArray mutableCopy];
+//                                       for (Obra *ob in self.constructions) {
+//                                           CLLocationCoordinate2D myLocation;
+//                                           myLocation.latitude = ob.lat;
+//                                           myLocation.longitude = ob.longi;
+//                                           [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *myImg) {
+//                                               MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
+//                                                                                                                       title: ob.titulo
+//                                                                                                                    subTitle: ob.descricao
+//                                                                                                                      setImg: myImg];
+//                                               [self.MyMap addAnnotation: annotation];
+//                                               MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
+//                                               [self.MyMap addOverlay: circle];
+//                                           }];
+//                                       }
+//                                   }
+//                               }];
+//    }
+//}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
     if (self.updateFlag == YES) {
         self.updateFlag = NO;
-        MKCoordinateRegion region;
-        MKCoordinateSpan span;
-        span.latitudeDelta = 0.005;
-        span.longitudeDelta = 0.005;
-        CLLocationCoordinate2D location;
-        location.latitude = aUserLocation.coordinate.latitude;
-        location.longitude = aUserLocation.coordinate.longitude;
-        region.span = span;
-        region.center = location;
-        self.userLocation = aUserLocation;
-        [aMapView setRegion: region animated: YES];
+        //set map region based on user location
+        CLLocation *location = [locations lastObject];
+        [self.MyMap setRegion:MKCoordinateRegionMake(location.coordinate, MKCoordinateSpanMake(0.005, 0.005)) animated:YES];
+    
         NSArray *existingpoints = self.MyMap.annotations;
         if ([existingpoints count]) {
             [self.MyMap removeAnnotations: existingpoints];
         }
-        [DatabaseUtilities getObrasForUserLatitude: self.userLocation.location.coordinate.latitude
-                                     userLongitude: self.userLocation.location.coordinate.longitude
-                               withCompletionBlock: ^void(NSArray *constructionsArray) {
-                                   if (constructionsArray) {
-                                       self.constructions = [constructionsArray mutableCopy];
-                                       for (Obra *ob in self.constructions) {
-                                           CLLocationCoordinate2D myLocation;
-                                           myLocation.latitude = ob.lat;
-                                           myLocation.longitude = ob.longi;
-                                           [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *myImg) {
-                                               MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
-                                                                                                                       title: ob.titulo
-                                                                                                                    subTitle: ob.descricao
-                                                                                                                      setImg: myImg];
-                                               [self.MyMap addAnnotation: annotation];
-                                               MKCircle *circle = [MKCircle circleWithCenterCoordinate: self.userLocation.location.coordinate radius: 30];
-                                               [self.MyMap addOverlay: circle];
-                                           }];
+    
+        NSLog((@"obras"));
+        [DatabaseUtilities getObrasForUserLatitude: location.coordinate.latitude
+                                         userLongitude: location.coordinate.longitude
+                                   withCompletionBlock: ^void(NSArray *constructionsArray) {
+                                       NSLog(@"Obras: %@", constructionsArray);
+                                       if (constructionsArray) {
+                                           self.constructions = [constructionsArray mutableCopy];
+                                           for (Obra *ob in self.constructions) {
+                                               NSLog(@"%@", ob);
+                                               CLLocationCoordinate2D myLocation;
+                                               myLocation.latitude = ob.lat;
+                                               myLocation.longitude = ob.longi;
+                                               [DatabaseUtilities getOneAndOnlyOnePictureFromObra: ob withCompletionBlock:^void(UIImage *myImg) {
+                                                   MapViewAnnotation *annotation = [[MapViewAnnotation alloc] initWithCoordinate: myLocation
+                                                                                                                           title: ob.titulo
+                                                                                                                        subTitle: ob.descricao
+                                                                                                                          setImg: myImg];
+                                                   [self.MyMap addAnnotation: annotation];
+                                                   MKCircle *circle = [MKCircle circleWithCenterCoordinate: location.coordinate radius: 30];
+                                                   [self.MyMap addOverlay: circle];
+                                               }];
+                                           }
                                        }
-                                   }
-                               }];
+                                   }];
+    
+        //stop updating
+//        [self.locationManager stopUpdatingLocation];
     }
+
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id <MKAnnotation>)annotation

@@ -17,8 +17,8 @@
 
 @interface NewConstructionViewController : UIViewController
 
-@property (nonatomic, strong) MKUserLocation *userLocation;
+@property (nonatomic, strong) CLLocation *userLocation;
 
-- (void) setUserLocation:(MKUserLocation *)userLocation;
+- (void) setUserLocation:(CLLocation *)userLocation;
 
 @end

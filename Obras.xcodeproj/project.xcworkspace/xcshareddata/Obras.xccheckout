@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>81955FF4-9029-427B-AAEE-B64A76A1CCFB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Obras</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>38A25795889E7524BCE4969FE93C6C185EA4152E</key>
+		<string>https://github.com/ulimalta/IHC---Obras</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Obras.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>38A25795889E7524BCE4969FE93C6C185EA4152E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ulimalta/IHC---Obras</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>38A25795889E7524BCE4969FE93C6C185EA4152E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>38A25795889E7524BCE4969FE93C6C185EA4152E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>IHC---Obras</string>
+		</dict>
+	</array>
+</dict>
+</plist>
